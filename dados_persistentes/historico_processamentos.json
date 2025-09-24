@@ -1,0 +1,12 @@
+{
+  "processamentos": [
+    {
+      "data_hora": "2025-09-24T12:56:59.953271",
+      "arquivo_origem": "Extrato_321200986529_23-09-2025_Parte1.ofx",
+      "novas_despesas": 51,
+      "total_despesas_apos": 51
+    }
+  ],
+  "total_arquivos_processados": 1,
+  "total_despesas_salvas": 51
+}

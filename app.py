@@ -57,7 +57,7 @@ def main():
     .saldo-negativo {
         background-color: #fff2f2;
         border: 2px solid #ff4b4b;
-        padding: 15px;
+        padding: 10px;
         border-radius: 10px;
         text-align: center;
     }
@@ -66,7 +66,7 @@ def main():
     .saldo-positivo {
         background-color: #f2fff2;
         border: 2px solid #00cc44;
-        padding: 15px;
+        padding: 10px;
         border-radius: 10px;
         text-align: center;
     }
@@ -297,6 +297,7 @@ def main():
                     - **Total:** {len(transacoes)} transações válidas
                     """)
                 
+                
                 # Gráfico de linha das transações por data
                 st.subheader("Transacoes por Data")
                 df = pd.DataFrame(transacoes)
@@ -304,6 +305,7 @@ def main():
                 transacoes_por_data = df.groupby('Data_obj').size()
                 st.line_chart(transacoes_por_data)
                 
+
                 # Tabela de transações válidas
                 st.header("📋 Transacoes Validas")
                 
