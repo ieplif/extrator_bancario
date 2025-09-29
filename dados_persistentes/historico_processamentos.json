@@ -5,8 +5,34 @@
       "arquivo_origem": "Extrato_321200986529_23-09-2025_Parte1.ofx",
       "novas_despesas": 51,
       "total_despesas_apos": 51
+    },
+    {
+      "data_hora": "2025-09-25T10:41:39.982000",
+      "arquivo_origem": "Extrato_321200986529_25-09-2025_Parte1.ofx",
+      "novas_despesas": 55,
+      "total_despesas_apos": 55
+    },
+    {
+      "data_hora": "2025-09-26T11:19:56.373251",
+      "arquivo_origem": "Extrato_321200986529_25-09-2025_Parte1.ofx",
+      "novas_despesas": 0,
+      "total_despesas_apos": 55
+    },
+    {
+      "data_hora": "2025-09-26T11:21:52.683470",
+      "arquivo_origem": "Extrato_321200986529_25-09-2025_Parte1.ofx",
+      "novas_despesas": 0,
+      "total_despesas_apos": 55
+    },
+    {
+      "data_hora": "2025-09-29T10:39:25.903040",
+      "tipo": "receitas_simples",
+      "arquivo_origem": "Extrato_321200986529_25-09-2025_Parte1.ofx",
+      "novas_receitas": 55,
+      "total_receitas_apos": 55
     }
   ],
-  "total_arquivos_processados": 1,
-  "total_despesas_salvas": 51
+  "total_arquivos_processados": 5,
+  "total_despesas_salvas": 55,
+  "total_receitas_salvas": 55
 }
