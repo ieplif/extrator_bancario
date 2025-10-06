@@ -70,31 +70,37 @@ class CategorizadorReceitasSimples:
         Returns:
             dict: Resultado da categorização
         """
-        # Verificar se é cartão de crédito (REDECARD)
-        if 'REDECARD' in razao_social_limpa:
+        # DEBUG: imprimir nome para verificar
+        print(f"DEBUG: Processando '{razao_social_limpa}'")
+        # Regra 1: REDECARD -> Cartão de Crédito
+        if 'REDECARD' in razao_social_limpa.upper():
+            self.estatisticas['cartao_credito'] += 1
             return {
-                'paciente': '',  # Vazio para preenchimento manual
+                'paciente': '',
                 'fonte_pagamento': 'Cartão de Crédito',
                 'tipo_preenchimento': 'cartao_credito',
                 'requer_preenchimento_manual': True,
-                'motivo': 'Cartão de crédito identificado'
+                'motivo': 'Cartão de crédito - paciente para preenchimento manual'
             }
-        
-        # Verificar se está na lista de preenchimento manual
-        for razao_manual in self.razoes_preenchimento_manual:
-            if razao_manual in razao_social_limpa:
+    
+        # Regra 2: Lista específica -> Preenchimento manual
+        razao_upper = razao_social_limpa.upper()
+        for nome in self.razoes_preenchimento_manual:
+            if nome.upper() in razao_upper:
+                self.estatisticas['preenchimento_manual'] += 1
                 return {
-                    'paciente': '',  # Vazio para preenchimento manual
-                    'fonte_pagamento': '',  # Vazio para preenchimento manual
+                    'paciente': '',
+                    'fonte_pagamento': '',
                     'tipo_preenchimento': 'manual',
                     'requer_preenchimento_manual': True,
-                    'motivo': f'Razão social na lista de preenchimento manual: {razao_manual}'
+                    'motivo': f'Lista específica - {nome}'
                 }
         
-        # Caso padrão: Razão Social vira Paciente automaticamente
+        # Regra 3: Demais -> Preenchimento automático
+        self.estatisticas['preenchimento_automatico'] += 1
         return {
-            'paciente': razao_social_limpa,  # Preenchimento automático
-            'fonte_pagamento': 'Particular',  # Padrão para pacientes
+            'paciente': razao_social_limpa,
+            'fonte_pagamento': 'Particular',
             'tipo_preenchimento': 'automatico',
             'requer_preenchimento_manual': False,
             'motivo': 'Preenchimento automático - paciente identificado'
