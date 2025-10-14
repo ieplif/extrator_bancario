@@ -296,7 +296,7 @@ def pagina_dashboard():
                     **Valores exatos:**
                     - 💰 Créditos: R$ {total_creditos:,.2f}
                     - 💸 Débitos: R$ {valor_absoluto_debitos:,.2f}
-                    - **Diferença:** R$ {valor_absoluto_debitos - total_creditos:,.2f} a mais em débitos
+                    - **Diferença:** R$ {total_creditos - valor_absoluto_debitos:,.2f}
                     """)
                 
                 with col2:

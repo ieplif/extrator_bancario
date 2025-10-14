@@ -47,7 +47,7 @@ def pagina_receitas():
                     st.metric("Preenchimento Manual", stats['preenchimento_manual'])
                 
                 # Resumo por fonte de pagamento
-                por_fonte = categorizador.obter_receitas_por_fonte(receitas_categorizadas)
+                por_fonte = categorizador.obter_receitas_por_fonte()
                 
                 if por_fonte:
                     st.subheader("📊 Por Fonte de Pagamento")
@@ -76,7 +76,7 @@ def pagina_receitas():
                         """, unsafe_allow_html=True)
                 
                 # Resumo por paciente (apenas preenchidos automaticamente)
-                por_paciente = categorizador.obter_receitas_por_paciente(receitas_categorizadas)
+                por_paciente = categorizador.obter_receitas_por_paciente()
                 
                 if por_paciente:
                     st.subheader("👥 Pacientes Identificados Automaticamente")
@@ -102,7 +102,7 @@ def pagina_receitas():
                 st.subheader("Ações")
                 
                 # Informações sobre preenchimento manual
-                receitas_manuais = categorizador.obter_receitas_preenchimento_manual(receitas_categorizadas)
+                receitas_manuais = categorizador.obter_receitas_preenchimento_manual()
                 
                 if not receitas_manuais.empty:
                     st.warning(f"""
