@@ -16,7 +16,8 @@ class CategorizadorDespesas:
             'Limpeza': ['GISELE CRISTINA DA SILVA'],
             'Luz': ['LIGHT'],
             'Aluguel': ['PJBANK'],
-            'Fisioterapeutas': ['BEATRIZ PRETA RICART', 'RAFAELA MAGALHAES DE FRANCA']
+            'Fisioterapeutas': ['BEATRIZ PRETA RICART', 'RAFAELA MAGALHAES DE FRANCA'],
+            'Contabilidade': ['ELISANGELA VIANNA BARRETO'],
         }
         
     def categorizar_despesa(self, razao_social):
