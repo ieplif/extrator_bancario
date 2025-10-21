@@ -233,6 +233,14 @@ def pagina_despesas():
                     st.success(f"✅ Backup criado: {resultado['timestamp']}")
                 else:
                     st.error(f"❌ Erro: {resultado['erro']}")
+        
+        # Botão Fechar Mês
+        st.markdown("---")
+        st.subheader("📈 Fechamento Mensal")
+        
+        if st.button("📈 Ir para Fechamento de Mês", type="primary", use_container_width=True):
+            st.session_state.pagina_atual = "resultado"
+            st.rerun()
     
     else:
         st.info("📝 Nenhuma despesa salva ainda. Processe um arquivo OFX no Dashboard primeiro.")

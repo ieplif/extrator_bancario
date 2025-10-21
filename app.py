@@ -119,7 +119,8 @@ def sidebar_navegacao():
     opcoes = {
         "📊 Dashboard": "dashboard",
         "🏷️ Despesas": "despesas",
-        "💰 Receitas": "receitas"
+        "💰 Receitas": "receitas",
+        "📈 Resultado": "resultado"
     }
     
     # Seleção da página atual
@@ -296,7 +297,7 @@ def pagina_dashboard():
                     **Valores exatos:**
                     - 💰 Créditos: R$ {total_creditos:,.2f}
                     - 💸 Débitos: R$ {valor_absoluto_debitos:,.2f}
-                    - **Diferença:** R$ {total_creditos - valor_absoluto_debitos:,.2f}
+                    - **Diferença:** R$ {total_creditos - valor_absoluto_debitos:,.2f} {'a mais em créditos' if total_creditos > valor_absoluto_debitos else 'a mais em débitos'}
                     """)
                 
                 with col2:
@@ -897,11 +898,14 @@ def main():
     if pagina_atual == "dashboard":
         pagina_dashboard()
     elif pagina_atual == "despesas":
-        from pagina_despesas import pagina_despesas
+        from pagina_despesas2 import pagina_despesas
         pagina_despesas()
     elif pagina_atual == "receitas":
         from pagina_receitas_simples import pagina_receitas
         pagina_receitas()
+    elif pagina_atual == "resultado":
+        from pagina_resultado import pagina_resultado
+        pagina_resultado()
 
 if __name__ == "__main__":
     main()

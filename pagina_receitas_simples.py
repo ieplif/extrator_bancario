@@ -545,6 +545,14 @@ def pagina_receitas():
                         st.rerun()
                     else:
                         st.error(f"❌ Erro: {resultado['erro']}")
+        
+        # Botão Fechar Mês
+        st.markdown("---")
+        st.subheader("📈 Fechamento Mensal")
+        
+        if st.button("📈 Ir para Fechamento de Mês", type="primary", use_container_width=True):
+            st.session_state.pagina_atual = "resultado"
+            st.rerun()
     
     else:
         st.info("""
