@@ -76,11 +76,35 @@ def pagina_despesas():
             # Opções de salvamento
             st.header("💾 Salvar Despesas")
             
+            # Seleção de mês/ano
+            from datetime import datetime
+            col_mes, col_ano = st.columns(2)
+            
+            with col_mes:
+                mes = st.selectbox(
+                    "Mês",
+                    options=list(range(1, 13)),
+                    format_func=lambda x: f"{x:02d}",
+                    index=datetime.now().month - 1,
+                    key="mes_despesas"
+                )
+            
+            with col_ano:
+                ano = st.selectbox(
+                    "Ano",
+                    options=list(range(2020, 2030)),
+                    index=list(range(2020, 2030)).index(datetime.now().year),
+                    key="ano_despesas"
+                )
+            
+            mes_ano = f"{mes:02d}/{ano}"
+            st.info(f"📅 As despesas serão salvas para o mês: **{mes_ano}**")
+            
             col1, col2 = st.columns(2)
             
             with col1:
                 if st.button("➕ Adicionar às Existentes", type="primary"):
-                    resultado = gerenciador.salvar_despesas(despesas_categorizadas, arquivo_origem, modo='adicionar')
+                    resultado = gerenciador.salvar_despesas(despesas_categorizadas, arquivo_origem, modo='adicionar', mes_ano=mes_ano)
                     
                     if resultado['sucesso']:
                         st.success(f"✅ {resultado['novas_despesas']} despesas adicionadas! Total: {resultado['total_despesas']}")
@@ -93,7 +117,7 @@ def pagina_despesas():
             
             with col2:
                 if st.button("🔄 Sobrescrever Dados Salvos"):
-                    resultado = gerenciador.salvar_despesas(despesas_categorizadas, arquivo_origem, modo='sobrescrever')
+                    resultado = gerenciador.salvar_despesas(despesas_categorizadas, arquivo_origem, modo='sobrescrever', mes_ano=mes_ano)
                     
                     if resultado['sucesso']:
                         st.success(f"✅ Dados sobrescritos! Total: {resultado['total_despesas']} despesas")

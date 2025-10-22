@@ -17,7 +17,6 @@ class CategorizadorDespesas:
             'Luz': ['LIGHT'],
             'Aluguel': ['PJBANK'],
             'Fisioterapeutas': ['BEATRIZ PRETA RICART', 'RAFAELA MAGALHAES DE FRANCA'],
-            'Contabilidade': ['ELISANGELA VIANNA BARRETO']
         }
         
     def categorizar_despesa(self, razao_social):

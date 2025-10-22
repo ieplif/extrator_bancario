@@ -898,7 +898,7 @@ def main():
     if pagina_atual == "dashboard":
         pagina_dashboard()
     elif pagina_atual == "despesas":
-        from pagina_despesas2 import pagina_despesas
+        from pagina_despesas import pagina_despesas
         pagina_despesas()
     elif pagina_atual == "receitas":
         from pagina_receitas_simples import pagina_receitas

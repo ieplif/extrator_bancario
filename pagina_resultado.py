@@ -128,7 +128,7 @@ def pagina_resultado():
                     st.metric("🧹 Limpeza", f"R$ {resultado_calculado['despesas_operacionais']['Limpeza']:,.2f}")
                 
                 with col3:
-                    st.metric("📊 Contabilidade", f"R$ {resultado_calculado['despesas_operacionais']['Contabilidade']:,.2f}")
+                    st.metric("📦 Diversos", f"R$ {resultado_calculado['despesas_operacionais']['Diversos']:,.2f}")
                 
                 st.markdown("---")
                 st.metric("📋 Total Operacionais", f"R$ {resultado_calculado['total_operacionais']:,.2f}")
@@ -237,7 +237,7 @@ def pagina_resultado():
                         st.write(f"⚡ Luz: R$ {resultado['Luz']:,.2f}")
                         st.write(f"🏥 Fisioterapeutas: R$ {resultado['Fisioterapeutas']:,.2f}")
                         st.write(f"🧹 Limpeza: R$ {resultado['Limpeza']:,.2f}")
-                        st.write(f"📊 Contabilidade: R$ {resultado['Contabilidade']:,.2f}")
+                        st.write(f"📦 Diversos: R$ {resultado['Diversos']:,.2f}")
                         st.write(f"💸 Retirada: R$ {resultado['Retirada']:,.2f}")
                         
                         st.markdown("**📅 Fechamento**")

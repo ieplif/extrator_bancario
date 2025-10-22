@@ -82,7 +82,7 @@ class GerenciadorPersistenciaUnificado:
     
     # ==================== MÉTODOS PARA DESPESAS ====================
     
-    def salvar_despesas(self, novas_despesas, arquivo_origem='manual', modo='adicionar'):
+    def salvar_despesas(self, novas_despesas, arquivo_origem='manual', modo='adicionar', mes_ano=None):
         """
         Salva despesas na tabela persistente.
         
@@ -90,6 +90,7 @@ class GerenciadorPersistenciaUnificado:
             novas_despesas (pd.DataFrame): Novas despesas
             arquivo_origem (str): Nome do arquivo OFX de origem
             modo (str): 'adicionar' ou 'sobrescrever'
+            mes_ano (str): Mês/Ano no formato MM/YYYY (ex: '09/2025')
             
         Returns:
             dict: Resultado da operação
@@ -98,6 +99,10 @@ class GerenciadorPersistenciaUnificado:
             # Adicionar informações de origem
             novas_despesas = novas_despesas.copy()
             novas_despesas['Arquivo_Origem'] = arquivo_origem
+            
+            # Adicionar Mes_Ano se fornecido
+            if mes_ano:
+                novas_despesas['Mes_Ano'] = mes_ano
             
             if modo == 'sobrescrever':
                 # Sobrescrever arquivo
@@ -233,7 +238,7 @@ class GerenciadorPersistenciaUnificado:
     
     # ==================== MÉTODOS PARA RECEITAS ====================
     
-    def salvar_receitas(self, novas_receitas, arquivo_origem='manual', modo='adicionar'):
+    def salvar_receitas(self, novas_receitas, arquivo_origem='manual', modo='adicionar', mes_ano=None):
         """
         Salva receitas na tabela persistente.
         
@@ -241,6 +246,7 @@ class GerenciadorPersistenciaUnificado:
             novas_receitas (pd.DataFrame): Novas receitas
             arquivo_origem (str): Nome do arquivo OFX de origem
             modo (str): 'adicionar' ou 'sobrescrever'
+            mes_ano (str): Mês/Ano no formato MM/YYYY (ex: '09/2025')
             
         Returns:
             dict: Resultado da operação
@@ -249,6 +255,10 @@ class GerenciadorPersistenciaUnificado:
             # Adicionar informações de origem
             novas_receitas = novas_receitas.copy()
             novas_receitas['Arquivo_Origem'] = arquivo_origem
+            
+            # Adicionar Mes_Ano se fornecido
+            if mes_ano:
+                novas_receitas['Mes_Ano'] = mes_ano
             
             if modo == 'sobrescrever':
                 # Sobrescrever arquivo

@@ -76,7 +76,7 @@ def pagina_receitas():
                         """, unsafe_allow_html=True)
                 
                 # Resumo por paciente (apenas preenchidos automaticamente)
-                por_paciente = categorizador.obter_receitas_por_paciente()
+                por_paciente = categorizador.obter_receitas_por_paciente(receitas_categorizadas)
                 
                 if por_paciente:
                     st.subheader("👥 Pacientes Identificados Automaticamente")
@@ -102,7 +102,7 @@ def pagina_receitas():
                 st.subheader("Ações")
                 
                 # Informações sobre preenchimento manual
-                receitas_manuais = categorizador.obter_receitas_preenchimento_manual()
+                receitas_manuais = categorizador.obter_receitas_preenchimento_manual(receitas_categorizadas)
                 
                 if not receitas_manuais.empty:
                     st.warning(f"""
@@ -115,6 +115,30 @@ def pagina_receitas():
                     """)
                 else:
                     st.success("✅ Todas as receitas foram categorizadas automaticamente!")
+                
+                # Seleção de mês/ano
+                from datetime import datetime
+                col_mes_rec, col_ano_rec = st.columns(2)
+                
+                with col_mes_rec:
+                    mes_rec = st.selectbox(
+                        "Mês",
+                        options=list(range(1, 13)),
+                        format_func=lambda x: f"{x:02d}",
+                        index=datetime.now().month - 1,
+                        key="mes_receitas"
+                    )
+                
+                with col_ano_rec:
+                    ano_rec = st.selectbox(
+                        "Ano",
+                        options=list(range(2020, 2030)),
+                        index=list(range(2020, 2030)).index(datetime.now().year),
+                        key="ano_receitas"
+                    )
+                
+                mes_ano_rec = f"{mes_rec:02d}/{ano_rec}"
+                st.info(f"📅 Receitas para: **{mes_ano_rec}**")
                 
                 # Opções de salvamento
                 modo_salvamento = st.radio(
@@ -129,7 +153,8 @@ def pagina_receitas():
                     resultado = gerenciador.salvar_receitas(
                         receitas_categorizadas, 
                         arquivo_origem, 
-                        modo
+                        modo,
+                        mes_ano=mes_ano_rec
                     )
                     
                     if resultado['sucesso']:
@@ -545,14 +570,6 @@ def pagina_receitas():
                         st.rerun()
                     else:
                         st.error(f"❌ Erro: {resultado['erro']}")
-        
-        # Botão Fechar Mês
-        st.markdown("---")
-        st.subheader("📈 Fechamento Mensal")
-        
-        if st.button("📈 Ir para Fechamento de Mês", type="primary", use_container_width=True):
-            st.session_state.pagina_atual = "resultado"
-            st.rerun()
     
     else:
         st.info("""
