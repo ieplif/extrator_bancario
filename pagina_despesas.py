@@ -57,8 +57,8 @@ def pagina_despesas():
                 media = resumo_categoria.loc[categoria, ('Valor', 'mean')]
                 
                 st.markdown(f"""
-                <div style="background-color: #f0f2f6; padding: 10px; margin: 5px 0; border-radius: 5px; border-left: 4px solid #ff4b4b;">
-                    <h4 style="margin: 0; color: #ff4b4b;">{categoria}</h4>
+                <div style="background-color: #E9E5DC; padding: 10px; margin: 5px 0; border-radius: 5px; border-left: 4px solid #BF6F4E;">
+                    <h4 style="margin: 0; color: #BF6F4E;">{categoria}</h4>
                     <p style="margin: 5px 0;"><strong>R$ {total:,.2f}</strong> ({quantidade} transações)</p>
                     <p style="margin: 0; font-size: 0.9em; color: #666;">Média: R$ {media:,.2f}</p>
                 </div>
@@ -175,8 +175,8 @@ def pagina_despesas():
             media = float(dados['media'])
             
             st.markdown(f"""
-            <div style="background-color: #f0f2f6; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #ff4b4b;">
-                <h4 style="margin: 0; color: #ff4b4b;">{categoria}</h4>
+            <div style="background-color: #E9E5DC; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #BF6F4E;">
+                <h4 style="margin: 0; color: #BF6F4E;">{categoria}</h4>
                 <p style="margin: 5px 0; font-size: 1.1em;"><strong>R$ {total:,.2f}</strong> ({quantidade} transações)</p>
                 <p style="margin: 0; font-size: 0.9em; color: #666;">Média: R$ {media:,.2f}</p>
             </div>

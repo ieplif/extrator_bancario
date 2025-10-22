@@ -55,9 +55,9 @@ def pagina_receitas():
                     for fonte, dados in por_fonte.items():
                         # Cor por fonte
                         if 'Cartão' in fonte:
-                            cor = '#007bff'  # Azul
+                            cor = '#849585'  # Verde sage
                         else:
-                            cor = '#28a745'  # Verde
+                            cor = '#849585'  # Verde sage
                         
                         st.markdown(f"""
                         <div style="
@@ -84,13 +84,13 @@ def pagina_receitas():
                     for paciente, dados in por_paciente.items():
                         st.markdown(f"""
                         <div style="
-                            background-color: #28a74520;
-                            border-left: 4px solid #28a745;
+                            background-color: #E9E5DC;
+                            border-left: 4px solid #849585;
                             border-radius: 8px;
                             padding: 15px;
                             margin: 10px 0;
                         ">
-                            <h4 style="margin: 0; color: #28a745;">{paciente}</h4>
+                            <h4 style="margin: 0; color: #849585;">{paciente}</h4>
                             <p style="margin: 5px 0; font-size: 1.1em;">
                                 <strong>R$ {dados['total']:,.2f}</strong> 
                                 ({int(dados['quantidade'])} transações)
@@ -352,9 +352,9 @@ def pagina_receitas():
                     
                     # Cor por fonte
                     if 'Cartão' in fonte:
-                        cor = '#007bff'
+                        cor = '#849585'
                     else:
-                        cor = '#28a745'
+                        cor = '#849585'
                     
                     st.markdown(f"""
                     <div style="
@@ -444,13 +444,13 @@ def pagina_receitas():
                 
                 st.markdown(f"""
                 <div style="
-                    background-color: #28a74520;
-                    border-left: 4px solid #28a745;
+                    background-color: #E9E5DC;
+                    border-left: 4px solid #849585;
                     border-radius: 8px;
                     padding: 15px;
                     margin: 10px 0;
                 ">
-                    <h4 style="margin: 0; color: #28a745;">{paciente}</h4>
+                    <h4 style="margin: 0; color: #849585;">{paciente}</h4>
                     <p style="margin: 5px 0; font-size: 1.1em;">
                         <strong>R$ {total:,.2f}</strong> 
                         ({quantidade} transações)
@@ -477,13 +477,13 @@ def pagina_receitas():
                 for _, row in analise_mensal_total.iterrows():
                     st.markdown(f"""
                     <div style="
-                        background-color: #28a74520;
-                        border-left: 4px solid #28a745;
+                        background-color: #E9E5DC;
+                        border-left: 4px solid #849585;
                         border-radius: 8px;
                         padding: 15px;
                         margin: 10px 0;
                     ">
-                        <h4 style="margin: 0; color: #28a745;">📅 {row['Mes_Ano']}</h4>
+                        <h4 style="margin: 0; color: #849585;">📅 {row['Mes_Ano']}</h4>
                         <p style="margin: 5px 0; font-size: 1.1em;">
                             <strong>R$ {row['Total']:,.2f}</strong> 
                             ({int(row['Quantidade'])} transações)

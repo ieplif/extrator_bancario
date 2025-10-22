@@ -10,59 +10,68 @@ from categorizador_receitas_simples import CategorizadorReceitasSimples
 def configurar_pagina():
     """Configurações gerais da página."""
     st.set_page_config(
-        page_title="Extrator Bancario", 
-        page_icon="💰", 
+        page_title="Humaniza - Gestão Financeira", 
+        page_icon="🦋", 
         layout="wide",
         initial_sidebar_state="expanded"
     )
     
-    # CSS personalizado
+    # CSS personalizado com paleta Humaniza
     st.markdown("""
     <style>
-    /* Estilo para débitos - vermelho */
+    /* Paleta de cores Humaniza */
+    :root {
+        --humaniza-terracota: #BF6F4E;
+        --humaniza-bege: #CFA78E;
+        --humaniza-verde-claro: #B6B7A5;
+        --humaniza-verde-sage: #849585;
+        --humaniza-creme: #E9E5DC;
+    }
+    
+    /* Estilo para débitos - terracota */
     .metric-debito {
-        background-color: #ffe6e6;
-        border-left: 4px solid #ff4b4b;
+        background-color: #E9E5DC;
+        border-left: 4px solid #BF6F4E;
         padding: 10px;
-        border-radius: 5px;
+        border-radius: 8px;
         margin: 5px 0;
     }
     
     .metric-debito .metric-label {
-        color: #ff4b4b;
+        color: #BF6F4E;
         font-weight: bold;
     }
     
     .metric-debito .metric-value {
-        color: #ff4b4b;
+        color: #BF6F4E;
         font-size: 1.2em;
         font-weight: bold;
     }
     
-    /* Estilo para créditos - verde */
+    /* Estilo para créditos - verde sage */
     .metric-credito {
-        background-color: #e6ffe6;
-        border-left: 4px solid #00cc44;
+        background-color: #E9E5DC;
+        border-left: 4px solid #849585;
         padding: 10px;
-        border-radius: 5px;
+        border-radius: 8px;
         margin: 5px 0;
     }
     
     .metric-credito .metric-label {
-        color: #00cc44;
+        color: #849585;
         font-weight: bold;
     }
     
     .metric-credito .metric-value {
-        color: #00cc44;
+        color: #849585;
         font-size: 1.2em;
         font-weight: bold;
     }
     
     /* Estilo para saldo negativo */
     .saldo-negativo {
-        background-color: #fff2f2;
-        border: 2px solid #ff4b4b;
+        background-color: #E9E5DC;
+        border: 2px solid #BF6F4E;
         padding: 15px;
         border-radius: 10px;
         text-align: center;
@@ -70,8 +79,8 @@ def configurar_pagina():
     
     /* Estilo para saldo positivo */
     .saldo-positivo {
-        background-color: #f2fff2;
-        border: 2px solid #00cc44;
+        background-color: #E9E5DC;
+        border: 2px solid #849585;
         padding: 15px;
         border-radius: 10px;
         text-align: center;
@@ -79,8 +88,8 @@ def configurar_pagina():
     
     /* Estilo para categorias */
     .categoria-card {
-        background-color: #f8f9fa;
-        border: 1px solid #dee2e6;
+        background-color: #E9E5DC;
+        border: 1px solid #B6B7A5;
         border-radius: 8px;
         padding: 15px;
         margin: 10px 0;
@@ -91,8 +100,8 @@ def configurar_pagina():
         display: block;
         padding: 10px 15px;
         margin: 5px 0;
-        background-color: #f8f9fa;
-        border: 1px solid #dee2e6;
+        background-color: #E9E5DC;
+        border: 1px solid #B6B7A5;
         border-radius: 5px;
         text-decoration: none;
         color: #333;
@@ -100,13 +109,29 @@ def configurar_pagina():
     }
     
     .nav-link:hover {
-        background-color: #e9ecef;
+        background-color: #CFA78E;
     }
     
     .nav-link.active {
-        background-color: #007bff;
+        background-color: #849585;
         color: white;
-        border-color: #007bff;
+        border-color: #849585;
+    }
+    
+    /* Sidebar customizada */
+    [data-testid="stSidebar"] {
+        background-color: #E9E5DC;
+    }
+    
+    /* Botões primários */
+    .stButton > button[kind="primary"] {
+        background-color: #849585;
+        border-color: #849585;
+    }
+    
+    .stButton > button[kind="primary"]:hover {
+        background-color: #BF6F4E;
+        border-color: #BF6F4E;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -120,7 +145,7 @@ def sidebar_navegacao():
         "📊 Dashboard": "dashboard",
         "🏷️ Despesas": "despesas",
         "💰 Receitas": "receitas",
-        "📈 Resultado": "resultado"
+        "📊 Resultado": "resultado"
     }
     
     # Seleção da página atual
@@ -204,8 +229,16 @@ def criar_graficos_valores(total_creditos, total_debitos):
 
 def pagina_dashboard():
     """Página principal - Dashboard com análise da extração."""
-    st.title("📊 Dashboard - Análise de Extrato")
-    st.markdown("**Faça upload de um arquivo OFX para análise completa dos dados bancários**")
+    
+    # Logo da clínica
+    col_logo, col_titulo = st.columns([1, 4])
+    
+    with col_logo:
+        st.image("C:/Users/filipe.ribeiro/Desktop/extrator_bancario/pasted_file_qLLgOb_image.png", width=150)
+
+    with col_titulo:
+        st.title("📊 Dashboard - Análise de Extrato")
+        st.markdown("**Faça upload de um arquivo OFX para análise completa dos dados bancários**")
     
     # Upload de arquivo
     uploaded_file = st.file_uploader("Escolha um arquivo OFX", type=['ofx'])
@@ -297,7 +330,7 @@ def pagina_dashboard():
                     **Valores exatos:**
                     - 💰 Créditos: R$ {total_creditos:,.2f}
                     - 💸 Débitos: R$ {valor_absoluto_debitos:,.2f}
-                    - **Diferença:** R$ {total_creditos - valor_absoluto_debitos:,.2f} {'a mais em créditos' if total_creditos > valor_absoluto_debitos else 'a mais em débitos'}
+                    - **Diferença:** R$ {valor_absoluto_debitos - total_creditos:,.2f} a mais em débitos
                     """)
                 
                 with col2:
