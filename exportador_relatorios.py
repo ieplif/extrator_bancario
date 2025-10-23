@@ -134,10 +134,10 @@ class ExportadorRelatoriosHumaniza:
             pdf.multi_cell(0, 5, observacoes)
         
         # Rodapé
-        pdf.set_y(-20)
-        pdf.set_font('Arial', 'I', 8)
-        pdf.set_text_color(150, 150, 150)
-        pdf.cell(0, 10, 'Humaniza - Sistema de Gestão Financeira', 0, 0, 'C')
+        #pdf.set_y(-20)
+        #pdf.set_font('Arial', 'I', 8)
+        #pdf.set_text_color(150, 150, 150)
+        #pdf.cell(0, 10, 'Humaniza - Sistema de Gestão Financeira', 0, 0, 'C')
         
         return bytes(pdf.output())
 
