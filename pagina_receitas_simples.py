@@ -76,7 +76,7 @@ def pagina_receitas():
                         """, unsafe_allow_html=True)
                 
                 # Resumo por paciente (apenas preenchidos automaticamente)
-                por_paciente = categorizador.obter_receitas_por_paciente(receitas_categorizadas)
+                por_paciente = categorizador.obter_receitas_por_paciente()
                 
                 if por_paciente:
                     st.subheader("👥 Pacientes Identificados Automaticamente")
@@ -102,7 +102,7 @@ def pagina_receitas():
                 st.subheader("Ações")
                 
                 # Informações sobre preenchimento manual
-                receitas_manuais = categorizador.obter_receitas_preenchimento_manual(receitas_categorizadas)
+                receitas_manuais = categorizador.obter_receitas_preenchimento_manual()
                 
                 if not receitas_manuais.empty:
                     st.warning(f"""
@@ -126,7 +126,7 @@ def pagina_receitas():
                         options=list(range(1, 13)),
                         format_func=lambda x: f"{x:02d}",
                         index=datetime.now().month - 1,
-                        key="mes_receitas"
+                        key="mes_receitas_salvar"
                     )
                 
                 with col_ano_rec:
@@ -387,7 +387,7 @@ def pagina_receitas():
                 
                 # Filtro por mês
                 meses_unicos = ['Todos'] + sorted(list(receitas_salvas['Mes_Ano'].unique()), reverse=True)
-                mes_filtro = st.selectbox("Mês:", meses_unicos, key="mes_receitas")
+                mes_filtro = st.selectbox("Mês:", meses_unicos, key="mes_receitas_filtro")
                 
                 # Filtro por período personalizado
                 col_data1, col_data2 = st.columns(2)

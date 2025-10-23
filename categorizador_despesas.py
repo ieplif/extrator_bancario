@@ -17,6 +17,7 @@ class CategorizadorDespesas:
             'Luz': ['LIGHT'],
             'Aluguel': ['PJBANK'],
             'Fisioterapeutas': ['BEATRIZ PRETA RICART', 'RAFAELA MAGALHAES DE FRANCA'],
+            'Tributos': ['SISPAG TRIB COD BARRAS', 'SISPA GPS'],
         }
         
     def categorizar_despesa(self, razao_social):

@@ -6,6 +6,23 @@ from gerenciador_persistencia_unificado import GerenciadorPersistenciaUnificado
 
 def pagina_resultado():
     """Página de resultados mensais e fechamentos."""
+
+    # CSS customizado com paleta Humaniza
+    st.markdown("""
+    <style>
+    /* Metrics com cores Humaniza */
+    div[data-testid="stMetricValue"] {
+        color: #849585;
+    }
+    
+    /* Cards de expander */
+    div[data-testid="stExpander"] {
+        background-color: #E9E5DC;
+        border: 1px solid #B6B7A5;
+        border-radius: 8px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
     
     st.title("📊 Resultados Mensais")
     st.markdown("Fechamentos mensais e análise de resultados")
@@ -128,6 +145,7 @@ def pagina_resultado():
                     st.metric("🧹 Limpeza", f"R$ {resultado_calculado['despesas_operacionais']['Limpeza']:,.2f}")
                 
                 with col3:
+                    st.metric("📜 Tributos", f"R$ {resultado_calculado['despesas_operacionais']['Tributos']:,.2f}")
                     st.metric("📦 Diversos", f"R$ {resultado_calculado['despesas_operacionais']['Diversos']:,.2f}")
                 
                 st.markdown("---")
@@ -147,6 +165,23 @@ def pagina_resultado():
                 # Campo para observações
                 observacoes = st.text_area("📝 Observações (opcional)", placeholder="Adicione observações sobre este fechamento...")
                 
+                # Botão de exportação PDF
+                from exportador_relatorios import ExportadorRelatoriosHumaniza
+                exportador = ExportadorRelatoriosHumaniza()
+                
+                try:
+                    pdf_bytes = exportador.exportar_resultado_pdf(resultado_calculado, observacoes)
+                    st.download_button(
+                        label="📝 Exportar PDF com Identidade Humaniza",
+                        data=pdf_bytes,
+                        file_name=f"resultado_{mes_ano.replace('/', '_')}_humaniza.pdf",
+                        mime="application/pdf",
+                        use_container_width=True
+                    )
+                except Exception as e:
+                    st.warning(f"⚠️ Exportação PDF indisponível: {str(e)}")
+                
+                st.markdown("---")
                 # Botão para salvar
                 col1, col2 = st.columns(2)
                 
@@ -237,6 +272,7 @@ def pagina_resultado():
                         st.write(f"⚡ Luz: R$ {resultado['Luz']:,.2f}")
                         st.write(f"🏥 Fisioterapeutas: R$ {resultado['Fisioterapeutas']:,.2f}")
                         st.write(f"🧹 Limpeza: R$ {resultado['Limpeza']:,.2f}")
+                        st.write(f"📜 Tributos: R$ {resultado.get('Tributos', 0):,.2f}")
                         st.write(f"📦 Diversos: R$ {resultado['Diversos']:,.2f}")
                         st.write(f"💸 Retirada: R$ {resultado['Retirada']:,.2f}")
                         

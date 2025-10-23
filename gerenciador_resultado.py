@@ -26,7 +26,7 @@ class GerenciadorResultado:
         if not os.path.exists(self.arquivo_resultados):
             df_resultados_vazio = pd.DataFrame(columns=[
                 'Mes_Ano', 'Receita_Bruta', 'Aluguel', 'Luz', 'Fisioterapeutas',
-                'Limpeza', 'Contabilidade', 'Diversos', 'Total_Operacionais', 'Resultado_Bruto',
+                'Limpeza', 'Tributos', 'Diversos', 'Total_Operacionais', 'Resultado_Bruto',
                 'Retirada', 'Resultado_Liquido', 'Data_Fechamento', 'Observacoes'
             ])
             df_resultados_vazio.to_csv(self.arquivo_resultados, index=False, encoding='utf-8')
@@ -62,7 +62,7 @@ class GerenciadorResultado:
                 'Luz': 0,
                 'Fisioterapeutas': 0,
                 'Limpeza': 0,
-                'Contabilidade': 0,
+                'Tributos': 0,
                 'Diversos': 0
             }
             
@@ -135,7 +135,7 @@ class GerenciadorResultado:
                 'Luz': resultado_calculado['despesas_operacionais']['Luz'],
                 'Fisioterapeutas': resultado_calculado['despesas_operacionais']['Fisioterapeutas'],
                 'Limpeza': resultado_calculado['despesas_operacionais']['Limpeza'],
-                'Contabilidade': resultado_calculado['despesas_operacionais']['Contabilidade'],
+                'Tributos': resultado_calculado['despesas_operacionais']['Tributos'],
                 'Diversos': resultado_calculado['despesas_operacionais']['Diversos'],
                 'Total_Operacionais': resultado_calculado['total_operacionais'],
                 'Resultado_Bruto': resultado_calculado['resultado_bruto'],
@@ -200,7 +200,7 @@ class GerenciadorResultado:
                 'Luz': resultado_calculado['despesas_operacionais']['Luz'],
                 'Fisioterapeutas': resultado_calculado['despesas_operacionais']['Fisioterapeutas'],
                 'Limpeza': resultado_calculado['despesas_operacionais']['Limpeza'],
-                'Contabilidade': resultado_calculado['despesas_operacionais']['Contabilidade'],
+                'Tributos': resultado_calculado['despesas_operacionais']['Tributos'],
                 'Diversos': resultado_calculado['despesas_operacionais']['Diversos'],
                 'Total_Operacionais': resultado_calculado['total_operacionais'],
                 'Resultado_Bruto': resultado_calculado['resultado_bruto'],

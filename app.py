@@ -138,7 +138,12 @@ def configurar_pagina():
 
 def sidebar_navegacao():
     """Cria a navegação na sidebar."""
-    st.sidebar.title("🧭 Navegação")
+
+    # Logo da clínica na sidebar
+    st.sidebar.image("C:/Users/filipe.ribeiro/Desktop/extrator_bancario/pasted_file_qLLgOb_image.png", use_container_width=True)
+    st.sidebar.markdown("---")
+
+    # st.sidebar.title("🧭 Navegação")
     
     # Opções de navegação
     opcoes = {
@@ -162,8 +167,70 @@ def sidebar_navegacao():
     
     return st.session_state.pagina_atual
 
+def aplicar_tema_dark():
+    """Aplica tema dark mode com paleta Humaniza adaptada."""
+    if st.session_state.get('dark_mode', False):
+        st.markdown("""
+        <style>
+        /* Dark Mode - Paleta Humaniza Adaptada */
+        :root {
+            --humaniza-dark-bg: #2C3531;
+            --humaniza-dark-card: #3E4A47;
+            --humaniza-terracota-dark: #D4876F;
+            --humaniza-sage-dark: #9BAA9D;
+            --humaniza-bege-dark: #D9C4B0;
+        }
+        
+        /* Background principal */
+        .stApp {
+            background-color: #2C3531;
+        }
+        
+        /* Sidebar dark */
+        [data-testid="stSidebar"] {
+            background-color: #3E4A47;
+        }
+        
+        /* Cards e métricas dark */
+        .metric-debito {
+            background-color: #3E4A47;
+            border-left: 4px solid #D4876F;
+        }
+        
+        .metric-credito {
+            background-color: #3E4A47;
+            border-left: 4px solid #9BAA9D;
+        }
+        
+        /* Texto claro */
+        h1, h2, h3, h4, h5, h6, p, span, div {
+            color: #E9E5DC !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
 def sidebar_informacoes():
     """Informações gerais na sidebar."""
+
+    # Dark Mode Toggle
+    st.sidebar.divider()
+    st.sidebar.header("🌙 Tema")
+    
+    if 'dark_mode' not in st.session_state:
+        st.session_state.dark_mode = False
+    
+    dark_mode = st.sidebar.toggle(
+        "Modo Escuro",
+        value=st.session_state.dark_mode,
+        key="dark_mode_toggle"
+    )
+    
+    if dark_mode != st.session_state.dark_mode:
+        st.session_state.dark_mode = dark_mode
+        aplicar_tema_dark() if dark_mode else None
+        st.rerun()
+    
+    st.sidebar.divider()
     st.sidebar.header("ℹ️ Informações")
     st.sidebar.markdown("""
     **Dados extraídos:**
@@ -229,16 +296,9 @@ def criar_graficos_valores(total_creditos, total_debitos):
 
 def pagina_dashboard():
     """Página principal - Dashboard com análise da extração."""
-    
-    # Logo da clínica
-    col_logo, col_titulo = st.columns([1, 4])
-    
-    with col_logo:
-        st.image("C:/Users/filipe.ribeiro/Desktop/extrator_bancario/pasted_file_qLLgOb_image.png", width=150)
 
-    with col_titulo:
-        st.title("📊 Dashboard - Análise de Extrato")
-        st.markdown("**Faça upload de um arquivo OFX para análise completa dos dados bancários**")
+    st.title("📊 Dashboard - Análise de Extrato")
+    st.markdown("**Faça upload de um arquivo OFX para análise completa dos dados bancários**")
     
     # Upload de arquivo
     uploaded_file = st.file_uploader("Escolha um arquivo OFX", type=['ofx'])
@@ -920,6 +980,9 @@ def pagina_despesas():
 def main():
     """Função principal da aplicação."""
     configurar_pagina()
+
+    # Aplicar tema dark se ativado
+    aplicar_tema_dark()
     
     # Navegação na sidebar
     pagina_atual = sidebar_navegacao()
