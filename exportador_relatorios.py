@@ -7,6 +7,7 @@ import pandas as pd
 from datetime import datetime
 from fpdf import FPDF
 import io
+import os
 
 class ExportadorRelatoriosHumaniza:
     """Exporta relatórios com identidade visual da clínica Humaniza."""
@@ -21,7 +22,7 @@ class ExportadorRelatoriosHumaniza:
     }
     
     def __init__(self):
-        self.logo_path = "C:/Users/filipe.ribeiro/Desktop/extrator_bancario/pasted_file_qLLgOb_image.png"
+        self.logo_path = os.path.join(os.path.dirname(__file__), "logo_humaniza.png")
     
     def exportar_resultado_pdf(self, resultado_mes, observacoes=""):
         """

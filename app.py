@@ -7,6 +7,8 @@ from categorizador_despesas import CategorizadorDespesas
 from gerenciador_persistencia_unificado import GerenciadorPersistenciaUnificado
 from categorizador_receitas_simples import CategorizadorReceitasSimples
 
+LOGO_PATH = os.path.join(os.path.dirname(__file__), "logo_humaniza.png")
+
 def configurar_pagina():
     """Configurações gerais da página."""
     st.set_page_config(
@@ -140,7 +142,7 @@ def sidebar_navegacao():
     """Cria a navegação na sidebar."""
 
     # Logo da clínica na sidebar
-    st.sidebar.image("C:/Users/filipe.ribeiro/Desktop/extrator_bancario/pasted_file_qLLgOb_image.png", use_container_width=True)
+    st.sidebar.image(LOGO_PATH, use_container_width=True)
     st.sidebar.markdown("---")
 
     # st.sidebar.title("🧭 Navegação")
