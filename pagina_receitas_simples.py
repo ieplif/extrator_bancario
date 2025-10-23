@@ -95,6 +95,10 @@ def pagina_receitas():
                                 <strong>R$ {dados['total']:,.2f}</strong> 
                                 ({int(dados['quantidade'])} transações)
                             </p>
+                            <p style="margin: 0; font-size: 0.9em; color: #666;">📅 {dados.get('todas_datas', f"{dados.get('primeira_data', 'N/A')} a {dados.get('ultima_data', 'N/A')}")}
+                            </p>
+
+
                         </div>
                         """, unsafe_allow_html=True)
             
@@ -455,8 +459,8 @@ def pagina_receitas():
                         <strong>R$ {total:,.2f}</strong> 
                         ({quantidade} transações)
                     </p>
-                    <small>Média: R$ {media:,.2f}</small>
-                </div>
+                    <p style="margin: 0; font-size: 0.9em; color: #666;">📅 {dados.get('todas_datas', f"{dados.get('primeira_data', 'N/A')} a {dados.get('ultima_data', 'N/A')}")}
+                    </p>
                 """, unsafe_allow_html=True)
             
             if len(resumo['por_paciente']) > 10:

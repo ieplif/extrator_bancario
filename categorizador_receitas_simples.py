@@ -260,15 +260,21 @@ class CategorizadorReceitasSimples:
         }).round(2)
         
         for paciente in pacientes.index:
+            # Obter todas as datas desse paciente
+            todas_datas = df_com_paciente[df_com_paciente['Paciente'] == paciente]['Data'].tolist()
+            
             resumo[paciente] = {
                 'total': pacientes.loc[paciente, ('Valor', 'sum')],
                 'quantidade': pacientes.loc[paciente, ('Valor', 'count')],
                 'media': pacientes.loc[paciente, ('Valor', 'mean')],
                 'primeira_data': pacientes.loc[paciente, ('Data', 'min')],
-                'ultima_data': pacientes.loc[paciente, ('Data', 'max')]
+                'ultima_data': pacientes.loc[paciente, ('Data', 'max')],
+                'todas_datas': ', '.join([d.strftime('%d/%m/%Y') if hasattr(d, 'strftime') else str(d) for d in todas_datas])
+
             }
-        
+
         return resumo
+
 
     
     def obter_receitas_por_fonte(self):
