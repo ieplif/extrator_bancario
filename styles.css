@@ -1,0 +1,304 @@
+/* ========================================
+   Sistema Humaniza - Estilos Centralizados
+   Paleta: Verde Sage #849585
+   ======================================== */
+
+/* Variáveis CSS */
+:root {
+    --sage-principal: #849585;
+    --sage-escuro: #6B7A6C;
+    --sage-claro: #A8B5A9;
+    --sage-muito-claro: #E8EBE8;
+    --sage-fundo: #F5F6F5;
+}
+
+/* ========================================
+   Métricas e Cards
+   ======================================== */
+
+/* Estilo para débitos */
+.metric-debito {
+    background-color: var(--sage-fundo);
+    border-left: 4px solid var(--sage-principal);
+    padding: 10px;
+    border-radius: 8px;
+    margin: 5px 0;
+    opacity: 0.8;
+}
+
+.metric-debito .metric-label {
+    color: var(--sage-escuro);
+    font-weight: bold;
+}
+
+.metric-debito .metric-value {
+    color: var(--sage-escuro);
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+/* Estilo para créditos */
+.metric-credito {
+    background-color: var(--sage-muito-claro);
+    border-left: 4px solid var(--sage-principal);
+    padding: 10px;
+    border-radius: 8px;
+    margin: 5px 0;
+}
+
+.metric-credito .metric-label {
+    color: var(--sage-principal);
+    font-weight: bold;
+}
+
+.metric-credito .metric-value {
+    color: var(--sage-principal);
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+/* ========================================
+   Saldos
+   ======================================== */
+
+/* Estilo para saldo negativo */
+.saldo-negativo {
+    background-color: var(--sage-fundo);
+    border: 2px solid var(--sage-principal);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    opacity: 0.8;
+}
+
+/* Estilo para saldo positivo */
+.saldo-positivo {
+    background-color: var(--sage-muito-claro);
+    border: 2px solid var(--sage-principal);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* ========================================
+   Categorias
+   ======================================== */
+
+/* Estilo para categorias */
+.categoria-card {
+    background-color: var(--sage-fundo);
+    border: 1px solid var(--sage-claro);
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+/* ========================================
+   Navegação
+   ======================================== */
+
+/* Estilo para navegação */
+.nav-link {
+    display: block;
+    padding: 10px 15px;
+    margin: 5px 0;
+    background-color: var(--sage-fundo);
+    border: 1px solid var(--sage-claro);
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    background-color: var(--sage-muito-claro);
+}
+
+.nav-link.active {
+    background-color: var(--sage-principal);
+    color: white;
+    border-color: var(--sage-principal);
+}
+
+/* ========================================
+   Componentes Streamlit
+   ======================================== */
+
+/* Sidebar customizada */
+[data-testid="stSidebar"] {
+    background-color: var(--sage-fundo) !important;
+}
+
+[data-testid="stSidebar"] * {
+    color: #333 !important;
+}
+
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 {
+    color: var(--sage-escuro) !important;
+}
+
+/* Botões da sidebar */
+[data-testid="stSidebar"] button {
+    background-color: white !important;
+    border: 1px solid var(--sage-claro) !important;
+    color: #333 !important;
+}
+
+[data-testid="stSidebar"] button:hover {
+    background-color: var(--sage-muito-claro) !important;
+}
+
+/* Botões primários */
+.stButton > button[kind="primary"] {
+    background-color: var(--sage-principal);
+    border-color: var(--sage-principal);
+}
+
+.stButton > button[kind="primary"]:hover {
+    background-color: var(--sage-escuro);
+    border-color: var(--sage-escuro);
+}
+
+/* Metrics com cores Humaniza */
+div[data-testid="stMetricValue"] {
+    color: var(--sage-principal);
+}
+
+/* Cards de expander */
+div[data-testid="stExpander"] {
+    background-color: var(--sage-fundo);
+    border: 1px solid var(--sage-claro);
+    border-radius: 8px;
+}
+
+/* ========================================
+   Cards Customizados (HTML inline)
+   ======================================== */
+
+/* Cards de despesas */
+.card-despesa {
+    background-color: var(--sage-fundo);
+    border-left: 4px solid var(--sage-principal);
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.card-despesa h4 {
+    margin: 0;
+    color: var(--sage-escuro);
+    font-weight: bold;
+}
+
+.card-despesa p {
+    margin: 5px 0;
+    color: #333;
+}
+
+.card-despesa strong {
+    color: #000;
+    font-weight: bold;
+}
+
+/* Cards de receitas */
+.card-receita {
+    background-color: var(--sage-fundo);
+    border-left: 4px solid var(--sage-principal);
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.card-receita h4 {
+    margin: 0;
+    color: var(--sage-escuro);
+    font-weight: bold;
+}
+
+.card-receita p {
+    margin: 5px 0;
+    color: #333;
+}
+
+.card-receita strong {
+    color: #000;
+    font-weight: bold;
+}
+
+/* ========================================
+   Dark Mode
+   ======================================== */
+
+.dark-mode {
+    /* Background principal */
+    --sage-fundo: #2C3531;
+    --sage-muito-claro: #3E4A47;
+    --sage-claro: #5A6A67;
+    --sage-principal: #9BAA9D;
+    --sage-escuro: #B8C5BA;
+}
+
+.dark-mode .stApp {
+    background-color: #2C3531;
+}
+
+.dark-mode [data-testid="stSidebar"] {
+    background-color: #3E4A47;
+}
+
+.dark-mode .metric-debito,
+.dark-mode .metric-credito {
+    background-color: #3E4A47;
+}
+
+.dark-mode h1, 
+.dark-mode h2, 
+.dark-mode h3, 
+.dark-mode h4, 
+.dark-mode h5, 
+.dark-mode h6, 
+.dark-mode p, 
+.dark-mode span, 
+.dark-mode div {
+    color: #E8EBE8 !important;
+}
+
+/* Cards inline com background escuro */
+.dark-mode div[style*="background-color: #F5F6F5"],
+.dark-mode div[style*="background-color: #E8EBE8"] {
+    background-color: #3E4A47 !important;
+}
+
+/* Texto dos cards inline */
+.dark-mode div[style*="background-color"] h4,
+.dark-mode div[style*="background-color"] p,
+.dark-mode div[style*="background-color"] strong {
+    color: #E8EBE8 !important;
+}
+
+/* Bordas dos cards inline */
+.dark-mode div[style*="border-left: 4px solid #849585"] {
+    border-left-color: #9BAA9D !important;
+}
+
+/* Cards com classes - dark mode */
+.dark-mode .card-despesa,
+.dark-mode .card-receita {
+    background-color: #3E4A47;
+    border-left-color: #9BAA9D;
+}
+
+.dark-mode .card-despesa h4,
+.dark-mode .card-receita h4 {
+    color: #9BAA9D;
+}
+
+.dark-mode .card-despesa p,
+.dark-mode .card-receita p,
+.dark-mode .card-despesa strong,
+.dark-mode .card-receita strong {
+    color: #E8EBE8;
+}
+

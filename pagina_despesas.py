@@ -55,17 +55,12 @@ def pagina_despesas():
                 total = resumo_categoria.loc[categoria, ('Valor', 'sum')]
                 quantidade = resumo_categoria.loc[categoria, ('Valor', 'count')]
             
-                
                 st.markdown(f"""
-                <div style="background-color: #E9E5DC; padding: 10px; margin: 5px 0; border-radius: 5px; border-left: 4px solid #BF6F4E;">
-                    <h4 style="margin: 0; color: #BF6F4E;">{categoria}</h4>
+                <div class="card-despesa">
+                    <h4>{categoria}</h4>
                     <p style="margin: 5px 0;"><strong>R$ {total:,.2f}</strong> ({quantidade} transações)</p>
                 </div>
-                """, unsafe_allow_html=True)
-            
-            # Tabela de despesas
-            st.subheader("📋 Despesas Categorizadas")
-            
+                """, unsafe_allow_html=True)          
             # Formatar valores para exibição
             df_display = despesas_categorizadas.copy()
             df_display['Valor'] = df_display['Valor'].apply(lambda x: f"R$ {x:,.2f}")
@@ -173,8 +168,8 @@ def pagina_despesas():
             quantidade = int(dados['quantidade'])
             
             st.markdown(f"""
-            <div style="background-color: #E9E5DC; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #BF6F4E;">
-                <h4 style="margin: 0; color: #BF6F4E;">{categoria}</h4>
+            <div class="card-despesa">
+                <h4>{categoria}</h4>
                 <p style="margin: 5px 0; font-size: 1.1em;"><strong>R$ {total:,.2f}</strong> ({quantidade} transações)</p>
             </div>
             """, unsafe_allow_html=True)
