@@ -249,36 +249,81 @@ def pagina_resultado():
             elif ordenacao == "Menor Resultado":
                 df_filtrado = df_filtrado.sort_values('Resultado_Liquido', ascending=True)
             
-            # Exibir resultados
+            # CSS para expanders no dark mode
+            if st.session_state.get('dark_mode', False):
+                st.markdown("""
+                <style>
+                .stExpander, [data-testid="stExpander"], details {
+                    background-color: #3E4A47 !important;
+                }
+                .stExpander summary, details summary {
+                    background-color: #3E4A47 !important;
+                    color: #E8EBE8 !important;
+                }
+                .stExpander div, details div {
+                    background-color: #3E4A47 !important;
+                    color: #E8EBE8 !important;
+                }
+                </style>
+                """, unsafe_allow_html=True)
+
+            # Exibir resultados com HTML customizado
             for _, resultado in df_filtrado.iterrows():
                 mes_ano = resultado['Mes_Ano']
+                resultado_liquido = resultado['Resultado_Liquido']
                 
-                with st.expander(f"📅 {mes_ano} - R$ {resultado['Resultado_Liquido']:,.2f}"):
-                    col1, col2 = st.columns(2)
-                    
-                    with col1:
-                        st.markdown("**💰 Receitas e Resultados**")
-                        st.write(f"Receita Bruta: R$ {resultado['Receita_Bruta']:,.2f}")
-                        st.write(f"Resultado Bruto: R$ {resultado['Resultado_Bruto']:,.2f}")
-                        st.write(f"Resultado Líquido: R$ {resultado['Resultado_Liquido']:,.2f}")
-                        
-                        if resultado['Observacoes']:
-                            st.markdown("**📝 Observações**")
-                            st.write(resultado['Observacoes'])
-                    
-                    with col2:
-                        st.markdown("**📋 Despesas Operacionais**")
-                        st.write(f"🏠 Aluguel: R$ {resultado['Aluguel']:,.2f}")
-                        st.write(f"⚡ Luz: R$ {resultado['Luz']:,.2f}")
-                        st.write(f"🏥 Fisioterapeutas: R$ {resultado['Fisioterapeutas']:,.2f}")
-                        st.write(f"🧹 Limpeza: R$ {resultado['Limpeza']:,.2f}")
-                        st.write(f"📜 Tributos: R$ {resultado.get('Tributos', 0):,.2f}")
-                        st.write(f"📦 Diversos: R$ {resultado['Diversos']:,.2f}")
-                        st.write(f"💸 Retirada: R$ {resultado['Retirada']:,.2f}")
-                        
-                        st.markdown("**📅 Fechamento**")
-                        st.write(f"Data: {resultado['Data_Fechamento']}")
-            
+                # Definir cores baseado no dark mode
+                if st.session_state.get('dark_mode', False):
+                    bg_color = "#3E4A47"
+                    text_color = "#E8EBE8"
+                    border_color = "#9BAA9D"
+                else:
+                    bg_color = "#F5F6F5"
+                    text_color = "#333"
+                    border_color = "#849585"
+                
+                # HTML customizado para expander
+                st.markdown(f"""
+                <details style="
+                    background-color: {bg_color};
+                    border: 1px solid {border_color};
+                    border-radius: 8px;
+                    padding: 10px;
+                    margin: 10px 0;
+                ">
+                    <summary style="
+                        cursor: pointer;
+                        font-weight: bold;
+                        color: {text_color};
+                        padding: 10px;
+                    ">
+                        📅 {mes_ano} - R$ {resultado_liquido:,.2f}
+                    </summary>
+                    <div style="padding: 15px; color: {text_color};">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div>
+                                <h4 style="color: {text_color}; margin-top: 0;">💰 Receitas e Resultados</h4>
+                                <p>Receita Bruta: R$ {resultado['Receita_Bruta']:,.2f}</p>
+                                <p>Resultado Bruto: R$ {resultado['Resultado_Bruto']:,.2f}</p>
+                                <p>Resultado Líquido: R$ {resultado['Resultado_Liquido']:,.2f}</p>
+                                {f'<h4 style="color: {text_color};">📝 Observações</h4><p>{resultado["Observacoes"]}</p>' if resultado['Observacoes'] else ''}
+                            </div>
+                            <div>
+                                <h4 style="color: {text_color}; margin-top: 0;">📋 Despesas Operacionais</h4>
+                                <p>🏠 Aluguel: R$ {resultado['Aluguel']:,.2f}</p>
+                                <p>⚡ Luz: R$ {resultado['Luz']:,.2f}</p>
+                                <p>🏥 Fisioterapeutas: R$ {resultado['Fisioterapeutas']:,.2f}</p>
+                                <p>🧹 Limpeza: R$ {resultado['Limpeza']:,.2f}</p>
+                                <p>📦 Diversos: R$ {resultado.get('Diversos', 0):,.2f}</p>
+                                <p>📜 Tributos: R$ {resultado.get('Tributos', 0):,.2f}</p>
+                                <p>💸 Retirada: R$ {resultado['Retirada']:,.2f}</p>
+                                <h4 style="color: {text_color};">📅 Fechamento</h4>
+                                <p>Data: {resultado['Data_Fechamento']}</p>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+                """, unsafe_allow_html=True)
             # Resumo geral
             st.markdown("---")
             st.subheader("📊 Resumo Geral")

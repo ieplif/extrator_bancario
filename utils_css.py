@@ -52,6 +52,30 @@ def carregar_css():
             div[data-testid="stMetricLabel"] {
                 color: #B8C5BA !important;
             }
+            /* Expanders - todos os elementos */
+            .stExpander,
+            [data-testid="stExpander"],
+            details {
+                background-color: #3E4A47 !important;
+                border-color: #9BAA9D !important;
+            }
+            .stExpander summary,
+            [data-testid="stExpander"] summary,
+            details summary {
+                background-color: #3E4A47 !important;
+                color: #E8EBE8 !important;
+            }
+            .stExpander *,
+            [data-testid="stExpander"] *,
+            details * {
+                color: #E8EBE8 !important;
+                background-color: transparent !important;
+            }
+            .stExpander div[style],
+            [data-testid="stExpander"] div[style],
+            details div[style] {
+                background-color: #3E4A47 !important;
+            }
             """
             css_content += css_dark
         
@@ -69,4 +93,3 @@ def aplicar_dark_mode():
     Mantida para compatibilidade.
     """
     pass
-
