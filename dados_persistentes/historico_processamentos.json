@@ -93,9 +93,16 @@
       "arquivo_origem": "Extrato_321200986529_30-09-2025_Parte1.ofx",
       "novas_receitas": 62,
       "total_receitas_apos": 62
+    },
+    {
+      "data_hora": "2025-10-31T13:50:41.932421",
+      "tipo": "despesas",
+      "arquivo_origem": "Extrato_321200986529_31-10-2025_Parte1.ofx",
+      "novas_despesas": 44,
+      "total_despesas_apos": 105
     }
   ],
-  "total_arquivos_processados": 14,
-  "total_despesas_salvas": 61,
+  "total_arquivos_processados": 15,
+  "total_despesas_salvas": 105,
   "total_receitas_salvas": 62
 }

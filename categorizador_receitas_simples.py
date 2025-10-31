@@ -64,11 +64,24 @@ class CategorizadorReceitasSimples:
         
         # Remover espaços múltiplos
         texto = re.sub(r'\s+', ' ', texto)
-        
+
+         # Remover "PIX RECEBIDO" do início
+        texto = re.sub(r'^PIX\s+RECEBIDO\s+', '', texto, flags=re.IGNORECASE)
+
+        # Remover números (CPF) do final
+        texto = re.sub(r'\s*\d{2,}.*$', '', texto)
+
+        # Remover números isolados
+        texto = re.sub(r'\s+\d+\s*', ' ', texto)
+    
+        # Limpar espaços extras
+        texto = re.sub(r'\s+', ' ', texto).strip()
+
         # Converter para maiúsculas
         texto = texto.upper()
         
         return texto.strip()
+
     
     def _aplicar_regras_categorizacao(self, razao_social_limpa):
         """
