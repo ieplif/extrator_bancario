@@ -14,7 +14,7 @@ class CategorizadorReceitasSimples:
         
         # Regras específicas para Fonte de Pagamento
         self.regras_fonte_pagamento = {
-            'REDECARD': 'Cartão de Crédito'
+            'REDE': 'Cartão de Crédito'
         }
         
         # Lista de razões sociais que devem ficar com campos vazios para preenchimento manual
@@ -65,7 +65,7 @@ class CategorizadorReceitasSimples:
         # Remover espaços múltiplos
         texto = re.sub(r'\s+', ' ', texto)
 
-         # Remover "PIX RECEBIDO" do início
+        # Remover "PIX RECEBIDO" do início
         texto = re.sub(r'^PIX\s+RECEBIDO\s+', '', texto, flags=re.IGNORECASE)
 
         # Remover números (CPF) do final
@@ -93,9 +93,8 @@ class CategorizadorReceitasSimples:
         Returns:
             dict: Resultado da categorização
         """
-        
-        # Regra 1: REDECARD -> Cartão de Crédito
-        if 'REDECARD' in razao_social_limpa.upper():
+        # Regra 1: REDE -> Cartão de Crédito
+        if 'REDE' in razao_social_limpa.upper():
             self.estatisticas['cartao_credito'] += 1
             return {
                 'paciente': '',

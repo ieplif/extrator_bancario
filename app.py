@@ -273,12 +273,30 @@ def pagina_dashboard():
                     st.markdown(grafico_html, unsafe_allow_html=True)
                     
                     # Mostrar valores exatos
-                    st.markdown(f"""
-                    **Valores exatos:**
-                    - 💰 Créditos: R$ {total_creditos:,.2f}
-                    - 💸 Débitos: R$ {valor_absoluto_debitos:,.2f}
-                    - **Diferença:** R$ {valor_absoluto_debitos - total_creditos:,.2f} a mais em débitos
-                    """)
+                    valor_absoluto_debitos = abs(total_debitos)
+                    diferenca = total_creditos - valor_absoluto_debitos
+
+                    if diferenca > 0:
+                        st.markdown(f"""
+                        **Valores exatos:**
+                        - 💰 Créditos: R$ {total_creditos:,.2f}
+                        - 💸 Débitos: R$ {valor_absoluto_debitos:,.2f}
+                        - **Diferença:** R$ {diferenca:,.2f} a mais em créditos
+                        """)
+                    elif diferenca < 0:
+                        st.markdown(f"""
+                        **Valores exatos:**
+                        - 💰 Créditos: R$ {total_creditos:,.2f}
+                        - 💸 Débitos: R$ {valor_absoluto_debitos:,.2f}
+                        - **Diferença:** R$ {abs(diferenca):,.2f} a mais em débitos
+                        """)
+                    else:
+                        st.markdown(f"""
+                        **Valores exatos:**
+                        - 💰 Créditos: R$ {total_creditos:,.2f}
+                        - 💸 Débitos: R$ {valor_absoluto_debitos:,.2f}
+                        - **Diferença:** Créditos e débitos equilibrados
+                        """)
                 
                 with col2:
                     st.subheader("Transações por Data")
