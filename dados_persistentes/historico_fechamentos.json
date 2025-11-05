@@ -17,7 +17,13 @@
       "mes_ano": "09/2025",
       "receita_bruta": 28429.910000000003,
       "resultado_liquido": 817.6100000000042
+    },
+    {
+      "data_hora": "2025-11-05T12:29:13.309429",
+      "mes_ano": "10/2025",
+      "receita_bruta": 25736.980000000003,
+      "resultado_liquido": 742.1100000000042
     }
   ],
-  "total_fechamentos": 3
+  "total_fechamentos": 4
 }
