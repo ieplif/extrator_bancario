@@ -33,7 +33,7 @@ class GerenciadorPersistenciaUnificado:
         if not os.path.exists(self.arquivo_despesas):
             df_despesas_vazio = pd.DataFrame(columns=[
                 'Data', 'Descricao', 'Valor', 'Razao_Social_Original', 
-                'Data_Processamento', 'Arquivo_Origem'
+                'Data_Processamento', 'Arquivo_Origem', 'Mes_Ano'
             ])
             df_despesas_vazio.to_csv(self.arquivo_despesas, index=False, encoding='utf-8')
         
@@ -43,7 +43,7 @@ class GerenciadorPersistenciaUnificado:
                 'Data', 'Razao_Social_Original', 'Razao_Social_Limpa', 'Valor',
                 'Paciente', 'Fonte_Pagamento', 'Tipo_Preenchimento',
                 'Requer_Preenchimento_Manual', 'Motivo_Categorizacao',
-                'Data_Processamento', 'Arquivo_Origem'
+                'Data_Processamento', 'Arquivo_Origem', 'Mes_Ano'
             ])
             df_receitas_vazio.to_csv(self.arquivo_receitas, index=False, encoding='utf-8')
         
@@ -90,7 +90,7 @@ class GerenciadorPersistenciaUnificado:
             novas_despesas (pd.DataFrame): Novas despesas
             arquivo_origem (str): Nome do arquivo OFX de origem
             modo (str): 'adicionar' ou 'sobrescrever'
-            mes_ano (str): Mês/Ano no formato MM/YYYY (ex: '09/2025')
+            mes_ano (str, optional): Mês/ano de referência (formato MM/YYYY)
             
         Returns:
             dict: Resultado da operação
@@ -100,7 +100,7 @@ class GerenciadorPersistenciaUnificado:
             novas_despesas = novas_despesas.copy()
             novas_despesas['Arquivo_Origem'] = arquivo_origem
             
-            # Adicionar Mes_Ano se fornecido
+            # Adicionar mês/ano se fornecido
             if mes_ano:
                 novas_despesas['Mes_Ano'] = mes_ano
             
@@ -246,7 +246,7 @@ class GerenciadorPersistenciaUnificado:
             novas_receitas (pd.DataFrame): Novas receitas
             arquivo_origem (str): Nome do arquivo OFX de origem
             modo (str): 'adicionar' ou 'sobrescrever'
-            mes_ano (str): Mês/Ano no formato MM/YYYY (ex: '09/2025')
+            mes_ano (str, optional): Mês/ano de referência (formato MM/YYYY)
             
         Returns:
             dict: Resultado da operação
@@ -256,7 +256,7 @@ class GerenciadorPersistenciaUnificado:
             novas_receitas = novas_receitas.copy()
             novas_receitas['Arquivo_Origem'] = arquivo_origem
             
-            # Adicionar Mes_Ano se fornecido
+            # Adicionar mês/ano se fornecido
             if mes_ano:
                 novas_receitas['Mes_Ano'] = mes_ano
             
@@ -502,6 +502,114 @@ class GerenciadorPersistenciaUnificado:
             
         except Exception as e:
             return {'sucesso': False, 'erro': str(e)}
+    
+    def dividir_receita_cartao(self, data_original, razao_social, valor_original, divisoes):
+        """
+        Divide uma receita de cartão de crédito entre múltiplos pacientes.
+        
+        Args:
+            data_original (str): Data da transação original do cartão
+            razao_social (str): Razão social original (ex: REDECARD S.A.)
+            valor_original (float): Valor total da transação
+            divisoes (list): Lista de dicionários com:
+                - paciente (str): Nome do paciente
+                - valor (float): Valor individual
+                - data (str): Data da consulta (formato DD/MM/YYYY)
+        
+        Returns:
+            dict: Resultado da operação com:
+                - sucesso (bool): Se a operação foi bem-sucedida
+                - receitas_criadas (int): Número de receitas criadas
+                - valor_total (float): Soma dos valores divididos
+                - diferenca (float): Diferença entre original e dividido
+                - erro (str): Mensagem de erro, se houver
+        """
+        try:
+            # Validar divisões
+            if not divisoes or len(divisoes) == 0:
+                return {'sucesso': False, 'erro': 'Nenhuma divisão fornecida'}
+            
+            # Validar campos obrigatórios
+            for i, div in enumerate(divisoes, 1):
+                if not div.get('paciente') or not div['paciente'].strip():
+                    return {'sucesso': False, 'erro': f'Paciente {i}: nome não pode estar vazio'}
+                
+                if not div.get('valor') or div['valor'] <= 0:
+                    return {'sucesso': False, 'erro': f'Paciente {i}: valor deve ser maior que zero'}
+                
+                if not div.get('data') or not div['data'].strip():
+                    return {'sucesso': False, 'erro': f'Paciente {i}: data não pode estar vazia'}
+            
+            # Calcular soma e diferença
+            soma_divisoes = sum(d['valor'] for d in divisoes)
+            diferenca = abs(soma_divisoes - valor_original)
+            
+            # Carregar receitas existentes
+            receitas = self.carregar_receitas()
+            
+            if receitas.empty:
+                return {'sucesso': False, 'erro': 'Nenhuma receita encontrada para dividir'}
+            
+            # Encontrar receita original
+            mask = (
+                (receitas['Data'] == data_original) &
+                (receitas['Razao_Social_Original'] == razao_social) &
+                (receitas['Valor'] == valor_original)
+            )
+            
+            receita_original = receitas[mask]
+            
+            if receita_original.empty:
+                return {'sucesso': False, 'erro': 'Receita original não encontrada'}
+            
+            # Obter índice da receita original
+            index_original = receita_original.index[0]
+            
+            # Obter dados da receita original para preservar
+            razao_social_limpa = receitas.loc[index_original, 'Razao_Social_Limpa']
+            arquivo_origem = receitas.loc[index_original, 'Arquivo_Origem']
+            data_processamento = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+            
+            # Remover receita original
+            receitas = receitas.drop(index_original)
+            
+            # Criar novas receitas para cada paciente
+            novas_receitas = []
+            
+            for divisao in divisoes:
+                nova_receita = {
+                    'Data': divisao['data'],
+                    'Razao_Social_Original': razao_social,
+                    'Razao_Social_Limpa': razao_social_limpa,
+                    'Valor': divisao['valor'],
+                    'Paciente': divisao['paciente'],
+                    'Fonte_Pagamento': 'Cartão de Crédito',
+                    'Tipo_Preenchimento': 'cartao_credito_dividido',
+                    'Requer_Preenchimento_Manual': False,
+                    'Motivo_Categorizacao': f'Divisão de cartão - original: {data_original} R$ {valor_original:.2f}',
+                    'Data_Processamento': data_processamento,
+                    'Arquivo_Origem': arquivo_origem
+                }
+                novas_receitas.append(nova_receita)
+            
+            # Adicionar novas receitas ao DataFrame
+            df_novas = pd.DataFrame(novas_receitas)
+            receitas = pd.concat([receitas, df_novas], ignore_index=True)
+            
+            # Salvar
+            receitas.to_csv(self.arquivo_receitas, index=False, encoding='utf-8')
+            
+            return {
+                'sucesso': True,
+                'receitas_criadas': len(divisoes),
+                'valor_total': soma_divisoes,
+                'valor_original': valor_original,
+                'diferenca': diferenca,
+                'pacientes': [d['paciente'] for d in divisoes]
+            }
+            
+        except Exception as e:
+            return {'sucesso': False, 'erro': f'Erro ao dividir receita: {str(e)}'}
     
     # ==================== MÉTODOS GERAIS ====================
     

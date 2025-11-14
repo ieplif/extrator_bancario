@@ -296,39 +296,194 @@ def pagina_receitas():
             
             # Interface de preenchimento manual
             for index, receita in receitas_manuais_salvas.iterrows():
+                # Verificar se é cartão de crédito para mostrar interface de divisão
+                is_cartao = receita['Tipo_Preenchimento'] == 'cartao_credito'
+                
                 with st.expander(f"✏️ {receita['Razao_Social_Original']} - R$ {receita['Valor']:,.2f} ({receita['Data']})"):
-                    col1, col2 = st.columns(2)
+                    # Informações da transação original
+                    st.markdown("### 📋 Informações da Transação Original")
                     
-                    with col1:
-                        st.write("**📋 Informações:**")
-                        st.write(f"- **Data:** {receita['Data']}")
-                        st.write(f"- **Valor:** R$ {receita['Valor']:,.2f}")
-                        st.write(f"- **Razão Social:** {receita['Razao_Social_Original']}")
-                        st.write(f"- **Tipo:** {receita['Tipo_Preenchimento']}")
-                        st.write(f"- **Motivo:** {receita['Motivo_Categorizacao']}")
+                    col_info1, col_info2, col_info3 = st.columns(3)
+                    with col_info1:
+                        st.metric("Data do Pagamento", receita['Data'])
+                    with col_info2:
+                        st.metric("Valor Total", f"R$ {receita['Valor']:,.2f}")
+                    with col_info3:
+                        st.metric("Fonte", receita['Fonte_Pagamento'] if receita['Fonte_Pagamento'] else 'N/A')
                     
-                    with col2:
-                        st.write("**✏️ Preencher Campos:**")
+                    st.markdown(f"**Razão Social:** {receita['Razao_Social_Original']}")
+                    st.markdown(f"**Tipo:** {receita['Tipo_Preenchimento']}")
+                    
+                    st.markdown("---")
+                    
+                    if is_cartao:
+                        # Interface de divisão para cartão de crédito
+                        st.markdown("### 👥 Dividir entre Pacientes")
                         
-                        # Campos atuais
-                        paciente_atual = receita['Paciente'] if receita['Paciente'] else ""
-                        fonte_atual = receita['Fonte_Pagamento'] if receita['Fonte_Pagamento'] else ""
+                        # Inicializar lista de pacientes no session_state
+                        if f'divisoes_{index}' not in st.session_state:
+                            st.session_state[f'divisoes_{index}'] = [
+                                {'paciente': '', 'valor': 0.0, 'data': receita['Data']}
+                            ]
                         
-                        # Inputs para preenchimento
-                        novo_paciente = st.text_input(
-                            "Nome do Paciente:", 
-                            value=paciente_atual,
-                            key=f"paciente_{index}"
-                        )
+                        divisoes = st.session_state[f'divisoes_{index}']
                         
-                        novo_fonte = st.selectbox(
-                            "Fonte de Pagamento:",
-                            ["", "Particular", "Cartão de Crédito", "Convênio", "PIX", "Transferência"],
-                            index=0 if not fonte_atual else ["", "Particular", "Cartão de Crédito", "Convênio", "PIX", "Transferência"].index(fonte_atual) if fonte_atual in ["", "Particular", "Cartão de Crédito", "Convênio", "PIX", "Transferência"] else 0,
-                            key=f"fonte_{index}"
-                        )
+                        # Renderizar campos para cada paciente
+                        for i, div in enumerate(divisoes):
+                            st.markdown(f"#### Paciente {i+1}")
+                            
+                            col1, col2, col3, col4 = st.columns([3, 2, 2, 1])
+                            
+                            with col1:
+                                div['paciente'] = st.text_input(
+                                    "Nome do Paciente",
+                                    value=div['paciente'],
+                                    key=f"div_nome_{index}_{i}",
+                                    placeholder="Ex: João Silva"
+                                )
+                            
+                            with col2:
+                                div['valor'] = st.number_input(
+                                    "Valor (R$)",
+                                    min_value=0.0,
+                                    value=float(div['valor']),
+                                    step=0.01,
+                                    format="%.2f",
+                                    key=f"div_valor_{index}_{i}"
+                                )
+                            
+                            with col3:
+                                div['data'] = st.text_input(
+                                    "Data da Consulta",
+                                    value=div['data'],
+                                    key=f"div_data_{index}_{i}",
+                                    placeholder="DD/MM/AAAA"
+                                )
+                            
+                            with col4:
+                                if len(divisoes) > 1:
+                                    if st.button("❌", key=f"remover_{index}_{i}", help="Remover paciente"):
+                                        divisoes.pop(i)
+                                        st.rerun()
                         
-                        if st.button("💾 Atualizar", key=f"atualizar_{index}"):
+                        # Botão para adicionar mais pacientes
+                        col_add, col_space = st.columns([1, 3])
+                        with col_add:
+                            if st.button("➕ Adicionar Paciente", key=f"add_{index}"):
+                                divisoes.append({'paciente': '', 'valor': 0.0, 'data': receita['Data']})
+                                st.rerun()
+                        
+                        # Resumo da divisão
+                        st.markdown("---")
+                        st.markdown("### 📊 Resumo da Divisão")
+                        
+                        soma_valores = sum(d['valor'] for d in divisoes)
+                        diferenca = abs(soma_valores - receita['Valor'])
+                        
+                        col_res1, col_res2, col_res3, col_res4 = st.columns(4)
+                        
+                        with col_res1:
+                            st.metric("Pacientes", len(divisoes))
+                        
+                        with col_res2:
+                            st.metric("Soma", f"R$ {soma_valores:,.2f}")
+                        
+                        with col_res3:
+                            st.metric("Original", f"R$ {receita['Valor']:,.2f}")
+                        
+                        with col_res4:
+                            if diferenca < 0.01:
+                                st.metric("Diferença", "R$ 0,00", delta="✅ OK")
+                            elif diferenca < 1.00:
+                                st.metric("Diferença", f"R$ {diferenca:.2f}", delta="⚠️ Pequena")
+                            else:
+                                st.metric("Diferença", f"R$ {diferenca:.2f}", delta="❌ Grande")
+                        
+                        # Validação visual
+                        if diferenca >= 0.01:
+                            if diferenca < 1.00:
+                                st.warning(f"⚠️ A diferença é de R$ {diferenca:.2f}. Deseja continuar mesmo assim?")
+                            else:
+                                st.error(f"❌ A diferença é de R$ {diferenca:.2f}. Verifique os valores antes de salvar.")
+                        else:
+                            st.success("✅ Os valores conferem!")
+                        
+                        # Botões de ação
+                        col_salvar, col_cancelar = st.columns(2)
+                        
+                        with col_salvar:
+                            if st.button("💾 Salvar Divisão", key=f"salvar_div_{index}", type="primary"):
+                                # Validar antes de salvar
+                                erros = []
+                                for i, div in enumerate(divisoes, 1):
+                                    if not div['paciente'].strip():
+                                        erros.append(f"Paciente {i}: nome vazio")
+                                    if div['valor'] <= 0:
+                                        erros.append(f"Paciente {i}: valor inválido")
+                                    if not div['data'].strip():
+                                        erros.append(f"Paciente {i}: data vazia")
+                                
+                                if erros:
+                                    st.error("❌ Erros encontrados:\n" + "\n".join(f"- {e}" for e in erros))
+                                else:
+                                    resultado = gerenciador.dividir_receita_cartao(
+                                        data_original=receita['Data'],
+                                        razao_social=receita['Razao_Social_Original'],
+                                        valor_original=receita['Valor'],
+                                        divisoes=divisoes
+                                    )
+                                    
+                                    if resultado['sucesso']:
+                                        st.success(f"""
+                                        ✅ **Receita dividida com sucesso!**
+                                        
+                                        - **Pacientes:** {resultado['receitas_criadas']}
+                                        - **Valor total:** R$ {resultado['valor_total']:,.2f}
+                                        - **Diferença:** R$ {resultado['diferenca']:.2f}
+                                        """)
+                                        
+                                        # Limpar session_state
+                                        if f'divisoes_{index}' in st.session_state:
+                                            del st.session_state[f'divisoes_{index}']
+                                        
+                                        st.rerun()
+                                    else:
+                                        st.error(f"❌ Erro: {resultado['erro']}")
+                        
+                        with col_cancelar:
+                            if st.button("🔄 Cancelar", key=f"cancelar_div_{index}"):
+                                if f'divisoes_{index}' in st.session_state:
+                                    del st.session_state[f'divisoes_{index}']
+                                st.rerun()
+                    
+                    else:
+                        # Interface simples para outros tipos (manual)
+                        st.markdown("### ✏️ Preencher Campos")
+                        
+                        col1, col2 = st.columns(2)
+                        
+                        with col1:
+                            # Campos atuais
+                            paciente_atual = receita['Paciente'] if receita['Paciente'] else ""
+                            
+                            # Input para preenchimento
+                            novo_paciente = st.text_input(
+                                "Nome do Paciente:", 
+                                value=paciente_atual,
+                                key=f"paciente_{index}"
+                            )
+                        
+                        with col2:
+                            fonte_atual = receita['Fonte_Pagamento'] if receita['Fonte_Pagamento'] else ""
+                            
+                            novo_fonte = st.selectbox(
+                                "Fonte de Pagamento:",
+                                ["", "Particular", "Cartão de Crédito", "Convênio", "PIX", "Transferência"],
+                                index=0 if not fonte_atual else ["", "Particular", "Cartão de Crédito", "Convênio", "PIX", "Transferência"].index(fonte_atual) if fonte_atual in ["", "Particular", "Cartão de Crédito", "Convênio", "PIX", "Transferência"] else 0,
+                                key=f"fonte_{index}"
+                            )
+                        
+                        if st.button("💾 Atualizar", key=f"atualizar_{index}", type="primary"):
                             resultado = gerenciador.atualizar_receita_por_dados(
                                 receita['Data'],
                                 receita['Razao_Social_Original'],
