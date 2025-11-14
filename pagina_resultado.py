@@ -3,10 +3,13 @@ import pandas as pd
 from datetime import datetime
 from gerenciador_resultado import GerenciadorResultado
 from gerenciador_persistencia_unificado import GerenciadorPersistenciaUnificado
+from estilo_unificado import aplicar_estilo_pagina
 
 def pagina_resultado():
     """Página de resultados mensais e fechamentos."""
 
+    aplicar_estilo_pagina(st)
+    
     # CSS customizado com paleta Humaniza
     st.markdown("""
     <style>

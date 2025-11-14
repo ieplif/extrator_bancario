@@ -2,9 +2,11 @@ import streamlit as st
 import pandas as pd
 from categorizador_despesas import CategorizadorDespesas
 from gerenciador_persistencia_unificado import GerenciadorPersistenciaUnificado
+from estilo_unificado import aplicar_estilo_pagina, card_categoria
 
 def pagina_despesas():
     """Página de Despesas - Categorização automática e gestão persistente."""
+    aplicar_estilo_pagina(st)
     st.title("🏷️ Gestão de Despesas")
     st.markdown("**Categorização automática e gestão de despesas persistentes**")
     
@@ -55,12 +57,11 @@ def pagina_despesas():
                 total = resumo_categoria.loc[categoria, ('Valor', 'sum')]
                 quantidade = resumo_categoria.loc[categoria, ('Valor', 'count')]
             
-                st.markdown(f"""
-                <div class="card-despesa">
-                    <h4>{categoria}</h4>
-                    <p style="margin: 5px 0;"><strong>R$ {total:,.2f}</strong> ({quantidade} transações)</p>
-                </div>
-                """, unsafe_allow_html=True)          
+                st.markdown(
+                    card_categoria(categoria, total, quantidade, "despesa"), 
+                    unsafe_allow_html=True
+                )     
+                     
             # Formatar valores para exibição
             df_display = despesas_categorizadas.copy()
             df_display['Valor'] = df_display['Valor'].apply(lambda x: f"R$ {x:,.2f}")
@@ -167,12 +168,9 @@ def pagina_despesas():
             total = float(dados['total'])
             quantidade = int(dados['quantidade'])
             
-            st.markdown(f"""
-            <div class="card-despesa">
-                <h4>{categoria}</h4>
-                <p style="margin: 5px 0; font-size: 1.1em;"><strong>R$ {total:,.2f}</strong> ({quantidade} transações)</p>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown(
+                card_categoria(categoria, total, quantidade, "despesa"),
+                unsafe_allow_html=True)
         
         # Filtros
         st.subheader("🔍 Filtrar Despesas Salvas")

@@ -2,9 +2,11 @@ import streamlit as st
 import pandas as pd
 from categorizador_receitas_simples import CategorizadorReceitasSimples
 from gerenciador_persistencia_unificado import GerenciadorPersistenciaUnificado
+from estilo_unificado import aplicar_estilo_pagina, card_categoria
 
 def pagina_receitas():
     """Página de Receitas - Sistema simples com duas colunas (Paciente e Fonte de Pagamento)."""
+    aplicar_estilo_pagina(st)
     st.title("💰 Gestão de Receitas")
     st.markdown("**Sistema simples com duas colunas: Paciente e Fonte de Pagamento**")
     
@@ -95,7 +97,7 @@ def pagina_receitas():
                                 <strong>R$ {dados['total']:,.2f}</strong> 
                                 ({int(dados['quantidade'])} transações)
                             </p>
-                            <p style="margin: 0; font-size: 0.9em; color: #666;">📅 {dados.get('todas_datas', f"{dados.get('primeira_data', 'N/A')} a {dados.get('ultima_data', 'N/A')}")}
+                            <p style="margin: 0; font-size: 0.9em; color: #666;">📅 {dados.get('todas_datas')}
                             </p>
 
 
@@ -459,7 +461,7 @@ def pagina_receitas():
                         <strong>R$ {total:,.2f}</strong> 
                         ({quantidade} transações)
                     </p>
-                    <p style="margin: 0; font-size: 0.9em; color: #666;">📅 {dados.get('todas_datas', f"{dados.get('primeira_data', 'N/A')} a {dados.get('ultima_data', 'N/A')}")}
+                    <p style="margin: 0; font-size: 0.9em; color: #666;">📅 {dados.get('todas_datas')}
                     </p>
                 """, unsafe_allow_html=True)
             

@@ -275,14 +275,33 @@ class CategorizadorReceitasSimples:
             # Obter todas as datas desse paciente
             todas_datas = df_com_paciente[df_com_paciente['Paciente'] == paciente]['Data'].tolist()
             
+            # Formatar todas as datas com tratamento robusto
+            datas_formatadas = []
+            for d in todas_datas:
+                if pd.notna(d):
+                    try:
+                        # Se já for datetime, usar direto
+                        if isinstance(d, (pd.Timestamp, datetime)):
+                            datas_formatadas.append(d.strftime('%d/%m/%Y'))
+                        # Se for string, converter com dayfirst=True (formato brasileiro)
+                        else:
+                            data_convertida = pd.to_datetime(d, dayfirst=True)
+                            datas_formatadas.append(data_convertida.strftime('%d/%m/%Y'))
+                    except:
+                        # Em caso de erro, tentar converter sem especificar formato
+                        try:
+                            data_convertida = pd.to_datetime(d)
+                            datas_formatadas.append(data_convertida.strftime('%d/%m/%Y'))
+                        except:
+                            pass  # Ignorar datas que não podem ser convertidas
+            
             resumo[paciente] = {
                 'total': pacientes.loc[paciente, ('Valor', 'sum')],
                 'quantidade': pacientes.loc[paciente, ('Valor', 'count')],
                 'media': pacientes.loc[paciente, ('Valor', 'mean')],
                 'primeira_data': pacientes.loc[paciente, ('Data', 'min')],
                 'ultima_data': pacientes.loc[paciente, ('Data', 'max')],
-                'todas_datas': ', '.join([d.strftime('%d/%m/%Y') if hasattr(d, 'strftime') else str(d) for d in todas_datas])
-
+                'todas_datas': ', '.join(datas_formatadas) if datas_formatadas else 'Nenhuma data disponível'
             }
 
         return resumo

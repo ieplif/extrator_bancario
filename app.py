@@ -6,6 +6,7 @@ from extrator_ofx import ExtratorOFX
 from categorizador_despesas import CategorizadorDespesas
 from gerenciador_persistencia_unificado import GerenciadorPersistenciaUnificado
 from categorizador_receitas_simples import CategorizadorReceitasSimples
+from estilo_unificado import aplicar_estilo_pagina, card_categoria, metrica_customizada
 
 LOGO_PATH = os.path.join(os.path.dirname(__file__), "logo_humaniza.png")
 
@@ -18,9 +19,8 @@ def configurar_pagina():
         initial_sidebar_state="expanded"
     )
 
-    # Carregar CSS centralizado
-    from utils_css import carregar_css
-    carregar_css()
+    # Aplicar estilo unificado
+    aplicar_estilo_pagina(st)
     
 
 def sidebar_navegacao():
@@ -54,70 +54,9 @@ def sidebar_navegacao():
     
     return st.session_state.pagina_atual
 
-def aplicar_tema_dark():
-    """Aplica tema dark mode com paleta Humaniza adaptada."""
-    if st.session_state.get('dark_mode', False):
-        st.markdown("""
-        <style>
-        /* Dark Mode - Paleta Humaniza Adaptada */
-        :root {
-            --humaniza-dark-bg: #2C3531;
-            --humaniza-dark-card: #3E4A47;
-            --humaniza-terracota-dark: #D4876F;
-            --humaniza-sage-dark: #9BAA9D;
-            --humaniza-bege-dark: #D9C4B0;
-        }
-        
-        /* Background principal */
-        .stApp {
-            background-color: #2C3531;
-        }
-        
-        /* Sidebar dark */
-        [data-testid="stSidebar"] {
-            background-color: #3E4A47;
-        }
-        
-        /* Cards e métricas dark */
-        .metric-debito {
-            background-color: #3E4A47;
-            border-left: 4px solid #D4876F;
-        }
-        
-        .metric-credito {
-            background-color: #3E4A47;
-            border-left: 4px solid #9BAA9D;
-        }
-        
-        /* Texto claro */
-        h1, h2, h3, h4, h5, h6, p, span, div {
-            color: #E9E5DC !important;
-        }
-        </style>
-        """, unsafe_allow_html=True)
 
 def sidebar_informacoes():
     """Informações gerais na sidebar."""
-
-    # Dark Mode Toggle
-    st.sidebar.divider()
-    st.sidebar.header("🌙 Tema")
-    
-    if 'dark_mode' not in st.session_state:
-        st.session_state.dark_mode = False
-    
-    dark_mode = st.sidebar.toggle(
-        "Modo Escuro",
-        value=st.session_state.dark_mode,
-        key="dark_mode_toggle"
-    )
-    
-    if dark_mode != st.session_state.dark_mode:
-        st.session_state.dark_mode = dark_mode
-        aplicar_tema_dark() if dark_mode else None
-        st.rerun()
-    
-    st.sidebar.divider()
     st.sidebar.header("ℹ️ Informações")
     st.sidebar.markdown("""
     **Dados extraídos:**
@@ -885,9 +824,6 @@ def pagina_despesas():
 def main():
     """Função principal da aplicação."""
     configurar_pagina()
-
-    # Aplicar tema dark se ativado
-    aplicar_tema_dark()
     
     # Navegação na sidebar
     pagina_atual = sidebar_navegacao()
