@@ -266,7 +266,7 @@ def pagina_receitas():
         resumo = gerenciador.obter_resumo_receitas()
         
         # Métricas das receitas salvas
-        col1, col2, col3, col4 = st.columns(4)
+        col1, col2, col3 = st.columns(3)
         
         with col1:
             st.metric("Total de Receitas", resumo['total_receitas'])
@@ -277,10 +277,15 @@ def pagina_receitas():
         with col3:
             st.metric("Preenchimento Manual", resumo['preenchimento']['manual'])
         
-        with col4:
-            periodo = resumo.get('periodo', {})
-            if periodo:
-                st.metric("Período", f"{periodo.get('inicio', 'N/A')} a {periodo.get('fim', 'N/A')}")
+        # Período em linha separada para melhor visualização
+        periodo = resumo.get('periodo', {})
+        if periodo:
+            inicio = periodo.get('inicio', 'N/A')
+            fim = periodo.get('fim', 'N/A')
+            if inicio == fim:
+                st.info(f"📅 **Período:** {inicio}")
+            else:
+                st.info(f"📅 **Período:** {inicio} a {fim}")
         
         # Seção de Preenchimento Manual
         receitas_manuais_salvas = gerenciador.obter_receitas_preenchimento_manual()
@@ -540,15 +545,35 @@ def pagina_receitas():
                 
                 # Preparar dados de data
                 receitas_salvas['Data_dt'] = pd.to_datetime(receitas_salvas['Data'], format='%d/%m/%Y')
-                receitas_salvas['Mes_Ano'] = receitas_salvas['Data_dt'].dt.strftime('%m/%Y')
+                
+                # Filtro de período destacado (Mes_Ano do banco)
+                if 'Mes_Ano' in receitas_salvas.columns:
+                    periodos_disponiveis = receitas_salvas['Mes_Ano'].dropna().unique()
+                    if len(periodos_disponiveis) > 0:
+                        periodos_opcoes = ['Todos'] + sorted(periodos_disponiveis.tolist(), reverse=True)
+                        periodo_selecionado = st.selectbox(
+                            "📅 Período (Mês/Ano):",
+                            periodos_opcoes,
+                            key="periodo_receitas",
+                            help="Filtre as receitas por mês/ano específico"
+                        )
+                    else:
+                        periodo_selecionado = 'Todos'
+                else:
+                    periodo_selecionado = 'Todos'
+                
+                st.markdown("---")
+                
+                # Criar coluna Mes_Ano a partir da data para filtro adicional
+                receitas_salvas['Mes_Ano_Data'] = receitas_salvas['Data_dt'].dt.strftime('%m/%Y')
                 
                 # Filtro por fonte de pagamento
                 fontes_unicas = ['Todas'] + [f for f in receitas_salvas['Fonte_Pagamento'].unique() if f != '']
                 fonte_filtro_salvas = st.selectbox("Fonte de Pagamento:", fontes_unicas, key="fonte_receitas")
                 
-                # Filtro por mês
-                meses_unicos = ['Todos'] + sorted(list(receitas_salvas['Mes_Ano'].unique()), reverse=True)
-                mes_filtro = st.selectbox("Mês:", meses_unicos, key="mes_receitas_filtro")
+                # Filtro por mês (da data)
+                meses_unicos = ['Todos'] + sorted(list(receitas_salvas['Mes_Ano_Data'].unique()), reverse=True)
+                mes_filtro = st.selectbox("Mês (por data):", meses_unicos, key="mes_receitas_filtro")
                 
                 # Filtro por período personalizado
                 col_data1, col_data2 = st.columns(2)
@@ -563,11 +588,15 @@ def pagina_receitas():
                 # Aplicar filtros
                 receitas_filtradas_salvas = receitas_salvas.copy()
                 
+                # Filtro de período (Mes_Ano)
+                if periodo_selecionado != 'Todos':
+                    receitas_filtradas_salvas = receitas_filtradas_salvas[receitas_filtradas_salvas['Mes_Ano'] == periodo_selecionado]
+                
                 if fonte_filtro_salvas != 'Todas':
                     receitas_filtradas_salvas = receitas_filtradas_salvas[receitas_filtradas_salvas['Fonte_Pagamento'] == fonte_filtro_salvas]
                 
                 if mes_filtro != 'Todos':
-                    receitas_filtradas_salvas = receitas_filtradas_salvas[receitas_filtradas_salvas['Mes_Ano'] == mes_filtro]
+                    receitas_filtradas_salvas = receitas_filtradas_salvas[receitas_filtradas_salvas['Mes_Ano_Data'] == mes_filtro]
                 
                 if data_inicio is not None:
                     receitas_filtradas_salvas = receitas_filtradas_salvas[receitas_filtradas_salvas['Data_dt'] >= pd.to_datetime(data_inicio)]

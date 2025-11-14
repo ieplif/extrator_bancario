@@ -135,9 +135,23 @@
       "arquivo_origem": "Extrato_321200986529_11-11-2025_Parte1.ofx",
       "novas_receitas": 23,
       "total_receitas_apos": 23
+    },
+    {
+      "data_hora": "2025-11-14T14:24:00.610791",
+      "tipo": "receitas_simples",
+      "arquivo_origem": "Extrato_321200986529_11-11-2025_Parte1.ofx",
+      "novas_receitas": 23,
+      "total_receitas_apos": 23
+    },
+    {
+      "data_hora": "2025-11-14T14:24:53.301621",
+      "tipo": "despesas",
+      "arquivo_origem": "Extrato_321200986529_11-11-2025_Parte1.ofx",
+      "novas_despesas": 17,
+      "total_despesas_apos": 17
     }
   ],
-  "total_arquivos_processados": 20,
-  "total_despesas_salvas": 44,
+  "total_arquivos_processados": 22,
+  "total_despesas_salvas": 17,
   "total_receitas_salvas": 23
 }

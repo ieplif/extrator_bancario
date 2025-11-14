@@ -146,7 +146,7 @@ def pagina_despesas():
         resumo = gerenciador.obter_resumo_despesas()
         
         # Cards de resumo
-        col1, col2, col3 = st.columns(3)
+        col1, col2 = st.columns(2)
         
         with col1:
             st.metric("Total Despesas", resumo['total_despesas'])
@@ -154,12 +154,14 @@ def pagina_despesas():
         with col2:
             st.metric("Valor Total", f"R$ {resumo['valor_total']:,.2f}")
         
-        with col3:
-            if resumo['periodo']:
-                inicio = resumo['periodo']['inicio']
-                fim = resumo['periodo']['fim']
-                periodo_texto = inicio if inicio == fim else f"{inicio} a {fim}"
-                st.metric("Período", periodo_texto)
+        # Período em linha separada para melhor visualização
+        if resumo['periodo']:
+            inicio = resumo['periodo']['inicio']
+            fim = resumo['periodo']['fim']
+            if inicio == fim:
+                st.info(f"📅 **Período:** {inicio}")
+            else:
+                st.info(f"📅 **Período:** {inicio} a {fim}")
         
         # Resumo por categoria (cards)
         st.subheader("📊 Resumo por Categoria (Dados Salvos)")
@@ -175,6 +177,23 @@ def pagina_despesas():
         # Filtros
         st.subheader("🔍 Filtrar Despesas Salvas")
         
+        # Filtro de período destacado
+        if 'Mes_Ano' in despesas_salvas.columns:
+            periodos_disponiveis = despesas_salvas['Mes_Ano'].dropna().unique()
+            if len(periodos_disponiveis) > 0:
+                periodos_opcoes = ['Todos'] + sorted(periodos_disponiveis.tolist(), reverse=True)
+                periodo_selecionado = st.selectbox(
+                    "📅 Selecione o Período (Mês/Ano)",
+                    periodos_opcoes,
+                    help="Filtre as despesas por mês/ano específico"
+                )
+            else:
+                periodo_selecionado = 'Todos'
+        else:
+            periodo_selecionado = 'Todos'
+        
+        st.markdown("---")
+        
         col1, col2, col3, col4, col5 = st.columns(5)
         
         with col1:
@@ -185,7 +204,7 @@ def pagina_despesas():
             # Converter datas para análise
             despesas_salvas['Data_dt'] = pd.to_datetime(despesas_salvas['Data'], format='%d/%m/%Y')
             meses_unicos = ['Todos'] + sorted(despesas_salvas['Data_dt'].dt.strftime('%m/%Y').unique().tolist(), reverse=True)
-            mes_filtro = st.selectbox("Mês", meses_unicos)
+            mes_filtro = st.selectbox("Mês (por data)", meses_unicos)
         
         with col3:
             data_inicio = st.date_input("Data início", value=None)
@@ -198,6 +217,10 @@ def pagina_despesas():
         
         # Aplicar filtros
         df_filtrado = despesas_salvas.copy()
+        
+        # Filtro de período (Mes_Ano)
+        if periodo_selecionado != 'Todos':
+            df_filtrado = df_filtrado[df_filtrado['Mes_Ano'] == periodo_selecionado]
         
         if categoria_filtro != 'Todas':
             df_filtrado = df_filtrado[df_filtrado['Descricao'] == categoria_filtro]
