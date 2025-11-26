@@ -17,23 +17,44 @@ class CategorizadorReceitasSimples:
             'REDE': 'Cartão de Crédito'
         }
         
-        # Lista de razões sociais que devem ficar com campos vazios para preenchimento manual
-        # EDITÁVEL: Adicione ou remova nomes conforme necessário
-        self.razoes_preenchimento_manual = [
-            'ALESSANDRA CRISTINE VAZ SANTOS',
-            'KAREN SILVA DE MELO', 
-            'KARLOS ALEXANDRE OLIVEIRA',
-            'CARLOS HENRIQUE FRANGO',
-            'FELIPE CUNHA MATOS',
-            'MATHEUS SILVA BERNARDES',
-            'SOLUÇÃO ELETRONICA MOTO PEÇA',
-            'LMCC DA COSTA LUANA',
-            'GPBR PARTICIPACOES LTDA',
-            'PIX QRS NATALIA SIL',
-            'ELSON DA SILVA LIMA',
-            'RAFAEL GOHN ALVES',
-            'RICARDO DA COSTA SILVA',
-        ]
+        # MAPEAMENTO AUTOMÁTICO: Razão Social -> Paciente Real
+        # EDITÁVEL: Adicione ou edite os mapeamentos conforme necessário
+        # Formato: 'RAZÃO SOCIAL PAGADORA': 'NOME DO PACIENTE REAL'
+        self.mapeamento_razao_paciente = {
+            'CARLOS HENRIQUE FRANGO': 'ANNA LUÍZA MONDIN MONTANHA',
+            'FELIPE CUNHA MATOS': 'LETÍCIA P. S. MATTOS',
+            'KARLOS ALEXANDRE OLIVEIRA': 'TÂNIA MARA BARRETO ALVES',
+            'KAREN SILVA DE MELO': 'DONA AUGUSTA',
+            'MATHEUS SILVA BERNARDES': 'ESTER ROCHA SANTOS DE OLIVEIRA',
+            'ALESSANDRA CRISTINE VAZ SANTOS': 'SÔNIA CRISTINA VAZ SANTOS',
+            'SOLUÇÃO ELETRONICA MOTO PEÇA': 'APARECIDA',
+            'LMCC DA COSTA LUANA': 'LUANA MACHADO DE CAMPOS',
+            'GPBR PARTICIPACOES LTDA': 'GYMPASS',
+            'PIX QRS NATALIA SIL': 'NATÁLIA SILVEIRA RODRIGUES DE OLIVEIRA,',
+            'ELSON DA SILVA LIMA': 'LÚCIA KURDIAN',
+            'RAFAEL GOHN ALVES': 'PATRÍCIA REYNOZO',
+            'RICARDO DA COSTA SILVA': 'GLAUCE LEANDRO E LUCINEIA LEANDRO',
+            'LORRAN MORAES SARENTO': 'LAÍS CECÍLIO DA COSTA',
+        }
+
+        # Mapeamento flexível para busca parcial (chave de busca -> chave completa do mapeamento)
+        # EDITÁVEL: Adicione variações de nomes que podem aparecer no extrato
+        self.mapeamento_flexivel = {
+            'FELIPE CUNHA': 'FELIPE CUNHA MATOS',
+            'KARLOS ALEXANDRE': 'KARLOS ALEXANDRE OLIVEIRA',
+            'CARLOS HENRIQUE': 'CARLOS HENRIQUE FRANGO',
+            'SOLUCAO ELETRONICA': 'SOLUÇÃO ELETRONICA MOTO PEÇA',
+            'KAREN SILVA': 'KAREN SILVA DE MELO',
+            'MATHEUS SILVA': 'MATHEUS SILVA BERNARDES',
+            'LMCC DA COSTA': 'LMCC DA COSTA LUANA',
+            'GPBR PARTICIPACOES': 'GPBR PARTICIPACOES LTDA',
+            'ALESSANDRA CRISTINE': 'ALESSANDRA CRISTINE VAZ SANTOS',
+            'NATALIA SIL': 'PIX QRS NATALIA SIL',
+            'ELSON DA SILVA': 'ELSON DA SILVA LIMA',
+            'RAFAEL GOHN': 'RAFAEL GOHN ALVES',
+            'RICARDO DA COSTA': 'RICARDO DA COSTA SILVA',
+            'LORRAN MORAES': 'LORRAN MORAES SARENTO',
+        }
         
         # Estatísticas do processamento
         self.estatisticas = {
@@ -104,36 +125,35 @@ class CategorizadorReceitasSimples:
                 'motivo': 'Cartão de crédito - paciente para preenchimento manual'
             }
         
-        # Regra 2: Lista específica -> Preenchimento manual (busca flexível)
+        # Regra 2: Lista específica -> Mapeamento automático (busca flexível)
         razao_upper = razao_social_limpa.upper()
         
-        # Mapeamento flexível para busca parcial
-        nomes_flexiveis = {
-            'FELIPE CUNHA': 'FELIPE CUNHA MATOS',
-            'KARLOS ALEXANDRE': 'KARLOS ALEXANDRE OLIVEIRA', 
-            'CARLOS HENRIQUE': 'CARLOS HENRIQUE FRANGO',
-            'SOLUCAO ELETRONICA': 'SOLUÇÃO ELETRONICA MOTO PEÇA',
-            'KAREN SILVA': 'KAREN SILVA DE MELO',
-            'MATHEUS SILVA': 'MATHEUS SILVA BERNARDES',
-            'LMCC DA COSTA': 'LMCC DA COSTA LUANA',
-            'GPBR PARTICIPACOES': 'GPBR PARTICIPACOES LTDA',
-            'ALESSANDRA CRISTINE': 'ALESSANDRA CRISTINE VAZ SANTOS',
-            'NATALIA SIL': 'PIX QRS NATALIA SIL',
-            'ELSON DA SILVA': 'ELSON DA SILVA LIMA',
-            'RAFAEL GOHN': 'RAFAEL GOHN ALVES',
-            'RICARDO DA COSTA': 'RICARDO DA COSTA SILVA',
-        }
-        
-        for busca, nome_original in nomes_flexiveis.items():
+        # Buscar por mapeamento flexível
+        for busca, razao_completa in self.mapeamento_flexivel.items():
             if busca in razao_upper:
-                self.estatisticas['preenchimento_manual'] += 1
-                return {
-                    'paciente': '',
-                    'fonte_pagamento': '',
-                    'tipo_preenchimento': 'manual',
-                    'requer_preenchimento_manual': True,
-                    'motivo': f'Lista específica - {nome_original}'
-                }
+                # Obter o paciente real do mapeamento
+                paciente_real = self.mapeamento_razao_paciente.get(razao_completa, '')
+                
+                # Se paciente está mapeado (não vazio), preencher automaticamente
+                if paciente_real:
+                    self.estatisticas['preenchimento_automatico'] += 1
+                    return {
+                        'paciente': paciente_real,
+                        'fonte_pagamento': 'Particular',
+                        'tipo_preenchimento': 'automatico_mapeado',
+                        'requer_preenchimento_manual': False,
+                        'motivo': f'Mapeamento automático: {razao_completa} → {paciente_real}'
+                    }
+                # Se paciente não está mapeado (vazio), requer preenchimento manual
+                else:
+                    self.estatisticas['preenchimento_manual'] += 1
+                    return {
+                        'paciente': '',
+                        'fonte_pagamento': '',
+                        'tipo_preenchimento': 'manual',
+                        'requer_preenchimento_manual': True,
+                        'motivo': f'Lista específica sem mapeamento - {razao_completa}'
+                    }
         
         # Regra 3: Demais -> Preenchimento automático
         self.estatisticas['preenchimento_automatico'] += 1

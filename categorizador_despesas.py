@@ -13,7 +13,7 @@ class CategorizadorDespesas:
         self.arquivo_despesas = arquivo_despesas
         self.regras_categorizacao = {
             'Retirada': ['CAISSA', 'FILIPE DE SOUZA RIBEIRO'],
-            'Limpeza': ['GISELE CRISTINA DA SILVA'],
+            'Limpeza': ['GISELE CRISTINA DA SILVA', 'MARIA MAGDALIA PEREIRA'],
             'Luz': ['LIGHT'],
             'Aluguel': ['PJBANK'],
             'Fisioterapeutas': ['BEATRIZ PRETA RICART', 'RAFAELA MAGALHAES DE FRANCA'],
