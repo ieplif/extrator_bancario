@@ -1,0 +1,157 @@
+{
+  "processamentos": [
+    {
+      "data_hora": "2025-09-24T12:56:59.953271",
+      "arquivo_origem": "Extrato_321200986529_23-09-2025_Parte1.ofx",
+      "novas_despesas": 51,
+      "total_despesas_apos": 51
+    },
+    {
+      "data_hora": "2025-09-25T10:41:39.982000",
+      "arquivo_origem": "Extrato_321200986529_25-09-2025_Parte1.ofx",
+      "novas_despesas": 55,
+      "total_despesas_apos": 55
+    },
+    {
+      "data_hora": "2025-09-26T11:19:56.373251",
+      "arquivo_origem": "Extrato_321200986529_25-09-2025_Parte1.ofx",
+      "novas_despesas": 0,
+      "total_despesas_apos": 55
+    },
+    {
+      "data_hora": "2025-09-26T11:21:52.683470",
+      "arquivo_origem": "Extrato_321200986529_25-09-2025_Parte1.ofx",
+      "novas_despesas": 0,
+      "total_despesas_apos": 55
+    },
+    {
+      "data_hora": "2025-09-29T10:39:25.903040",
+      "tipo": "receitas_simples",
+      "arquivo_origem": "Extrato_321200986529_25-09-2025_Parte1.ofx",
+      "novas_receitas": 55,
+      "total_receitas_apos": 55
+    },
+    {
+      "data_hora": "2025-09-30T15:30:28.970942",
+      "tipo": "despesas",
+      "arquivo_origem": "Extrato_321200986529_30-09-2025_Parte1.ofx",
+      "novas_despesas": 61,
+      "total_despesas_apos": 61
+    },
+    {
+      "data_hora": "2025-09-30T15:32:14.513811",
+      "tipo": "receitas_simples",
+      "arquivo_origem": "Extrato_321200986529_30-09-2025_Parte1.ofx",
+      "novas_receitas": 62,
+      "total_receitas_apos": 62
+    },
+    {
+      "data_hora": "2025-10-01T11:24:32.803618",
+      "tipo": "despesas",
+      "arquivo_origem": "Extrato_321200986529_30-09-2025_Parte1.ofx",
+      "novas_despesas": 61,
+      "total_despesas_apos": 61
+    },
+    {
+      "data_hora": "2025-10-01T11:58:33.378173",
+      "tipo": "receitas_simples",
+      "arquivo_origem": "Extrato_321200986529_30-09-2025_Parte1.ofx",
+      "novas_receitas": 62,
+      "total_receitas_apos": 62
+    },
+    {
+      "data_hora": "2025-10-01T12:04:39.324071",
+      "tipo": "receitas_simples",
+      "arquivo_origem": "Extrato_321200986529_30-09-2025_Parte1.ofx",
+      "novas_receitas": 62,
+      "total_receitas_apos": 62
+    },
+    {
+      "data_hora": "2025-10-02T10:26:01.534166",
+      "tipo": "despesas",
+      "arquivo_origem": "Extrato_321200986529_30-09-2025_Parte1.ofx",
+      "novas_despesas": 61,
+      "total_despesas_apos": 61
+    },
+    {
+      "data_hora": "2025-10-02T10:40:14.968286",
+      "tipo": "receitas_simples",
+      "arquivo_origem": "Extrato_321200986529_30-09-2025_Parte1.ofx",
+      "novas_receitas": 62,
+      "total_receitas_apos": 62
+    },
+    {
+      "data_hora": "2025-10-21T12:11:27.051415",
+      "tipo": "receitas_simples",
+      "arquivo_origem": "Extrato_321200986529_30-09-2025_Parte1.ofx",
+      "novas_receitas": 62,
+      "total_receitas_apos": 62
+    },
+    {
+      "data_hora": "2025-10-21T13:15:15.174247",
+      "tipo": "receitas_simples",
+      "arquivo_origem": "Extrato_321200986529_30-09-2025_Parte1.ofx",
+      "novas_receitas": 62,
+      "total_receitas_apos": 62
+    },
+    {
+      "data_hora": "2025-10-31T13:50:41.932421",
+      "tipo": "despesas",
+      "arquivo_origem": "Extrato_321200986529_31-10-2025_Parte1.ofx",
+      "novas_despesas": 44,
+      "total_despesas_apos": 105
+    },
+    {
+      "data_hora": "2025-11-03T10:53:25.327727",
+      "tipo": "receitas_simples",
+      "arquivo_origem": "Extrato_321200986529_31-10-2025_Parte1.ofx",
+      "novas_receitas": 55,
+      "total_receitas_apos": 117
+    },
+    {
+      "data_hora": "2025-11-05T12:18:54.492062",
+      "tipo": "receitas_simples",
+      "arquivo_origem": "Extrato_321200986529_31-10-2025_Parte1.ofx",
+      "novas_receitas": 55,
+      "total_receitas_apos": 55
+    },
+    {
+      "data_hora": "2025-11-05T12:28:27.888886",
+      "tipo": "despesas",
+      "arquivo_origem": "Extrato_321200986529_31-10-2025_Parte1.ofx",
+      "novas_despesas": 44,
+      "total_despesas_apos": 44
+    },
+    {
+      "data_hora": "2025-11-14T13:34:59.147304",
+      "tipo": "receitas_simples",
+      "arquivo_origem": "Extrato_321200986529_11-11-2025_Parte1.ofx",
+      "novas_receitas": 23,
+      "total_receitas_apos": 23
+    },
+    {
+      "data_hora": "2025-11-14T13:56:52.462473",
+      "tipo": "receitas_simples",
+      "arquivo_origem": "Extrato_321200986529_11-11-2025_Parte1.ofx",
+      "novas_receitas": 23,
+      "total_receitas_apos": 23
+    },
+    {
+      "data_hora": "2025-11-14T14:24:00.610791",
+      "tipo": "receitas_simples",
+      "arquivo_origem": "Extrato_321200986529_11-11-2025_Parte1.ofx",
+      "novas_receitas": 23,
+      "total_receitas_apos": 23
+    },
+    {
+      "data_hora": "2025-11-14T14:24:53.301621",
+      "tipo": "despesas",
+      "arquivo_origem": "Extrato_321200986529_11-11-2025_Parte1.ofx",
+      "novas_despesas": 17,
+      "total_despesas_apos": 17
+    }
+  ],
+  "total_arquivos_processados": 22,
+  "total_despesas_salvas": 17,
+  "total_receitas_salvas": 23
+}

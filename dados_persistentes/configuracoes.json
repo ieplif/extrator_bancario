@@ -1,9 +1,0 @@
-{
-  "versao": "1.0",
-  "ultima_atualizacao": "2025-09-24T12:55:39.306534",
-  "configuracoes_categorizacao": {
-    "permitir_duplicatas": false,
-    "backup_automatico": true,
-    "max_historico": 100
-  }
-}

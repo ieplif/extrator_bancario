@@ -99,7 +99,7 @@ class GerenciadorPersistenciaUnificado:
             # Adicionar informações de origem
             novas_despesas = novas_despesas.copy()
             novas_despesas['Arquivo_Origem'] = arquivo_origem
-
+            
             # Adicionar mês/ano se fornecido
             if mes_ano:
                 novas_despesas['Mes_Ano'] = mes_ano
@@ -255,7 +255,7 @@ class GerenciadorPersistenciaUnificado:
             # Adicionar informações de origem
             novas_receitas = novas_receitas.copy()
             novas_receitas['Arquivo_Origem'] = arquivo_origem
-
+            
             # Adicionar mês/ano se fornecido
             if mes_ano:
                 novas_receitas['Mes_Ano'] = mes_ano
