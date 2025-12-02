@@ -35,6 +35,9 @@ class CategorizadorReceitasSimples:
             'RAFAEL GOHN ALVES': 'PATRÍCIA REYNOZO',
             'RICARDO DA COSTA SILVA': 'GLAUCE LEANDRO E LUCINEIA LEANDRO',
             'LORRAN MORAES SARENTO': 'LAÍS CECÍLIO DA COSTA',
+            'ALESSANDRA CRISTINE VAZ SANTOS': 'SÔNIA CRISTINA VAZ SANTOS'
+            'ADRIANA CRISTINE VAZ SANTOS': 'SÔNIA CRISTINA VAZ SANTOS',
+            'GILBERTO ALVES SILVA': 'LARISSSA DA VEIGA AMARAL',
         }
 
         # Mapeamento flexível para busca parcial (chave de busca -> chave completa do mapeamento)
@@ -54,6 +57,9 @@ class CategorizadorReceitasSimples:
             'RAFAEL GOHN': 'RAFAEL GOHN ALVES',
             'RICARDO DA COSTA': 'RICARDO DA COSTA SILVA',
             'LORRAN MORAES': 'LORRAN MORAES SARENTO',
+            'ALESSANDRA CRISTINE': 'ALESSANDRA CRISTINE VAZ SANTOS',
+            'ADRIANA CRISTINE': 'ADRIANA CRISTINE VAZ SANTOS',
+            'GILBERTO ALVES': 'GILBERTO ALVES SILVA',
         }
         
         # Estatísticas do processamento

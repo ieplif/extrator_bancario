@@ -1,0 +1,17 @@
+{
+  "versao": "2.0",
+  "ultima_atualizacao": "2025-11-26T12:08:14.109636",
+  "configuracoes_categorizacao": {
+    "permitir_duplicatas": false,
+    "backup_automatico": true,
+    "max_historico": 100
+  },
+  "configuracoes_despesas": {
+    "categorias_ativas": true,
+    "filtros_automaticos": true
+  },
+  "configuracoes_receitas": {
+    "preenchimento_manual": true,
+    "identificacao_automatica": true
+  }
+}
