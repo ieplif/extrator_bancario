@@ -1,4 +1,11 @@
 {
-  "fechamentos": [],
-  "total_fechamentos": 0
+  "fechamentos": [
+    {
+      "data_hora": "2025-12-03T09:39:00.867350",
+      "mes_ano": "09/2025",
+      "receita_bruta": 28429.91,
+      "resultado_liquido": 817.6100000000006
+    }
+  ],
+  "total_fechamentos": 1
 }

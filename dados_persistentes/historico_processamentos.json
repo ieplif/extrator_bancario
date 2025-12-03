@@ -1,6 +1,21 @@
 {
-  "processamentos": [],
-  "total_arquivos_processados": 0,
-  "total_despesas_salvas": 0,
-  "total_receitas_salvas": 0
+  "processamentos": [
+    {
+      "data_hora": "2025-12-03T09:35:35.796176",
+      "tipo": "receitas_simples",
+      "arquivo_origem": "Extrato_321200986529_03-12-2025_Parte1.ofx",
+      "novas_receitas": 62,
+      "total_receitas_apos": 62
+    },
+    {
+      "data_hora": "2025-12-03T09:38:34.965126",
+      "tipo": "despesas",
+      "arquivo_origem": "Extrato_321200986529_03-12-2025_Parte1.ofx",
+      "novas_despesas": 61,
+      "total_despesas_apos": 61
+    }
+  ],
+  "total_arquivos_processados": 2,
+  "total_despesas_salvas": 61,
+  "total_receitas_salvas": 62
 }
