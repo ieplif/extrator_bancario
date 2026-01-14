@@ -5,7 +5,25 @@
       "mes_ano": "09/2025",
       "receita_bruta": 28429.91,
       "resultado_liquido": 817.6100000000006
+    },
+    {
+      "data_hora": "2025-12-05T13:34:55.897456",
+      "mes_ano": "10/2025",
+      "receita_bruta": 26127.120000000003,
+      "resultado_liquido": 1132.2500000000036
+    },
+    {
+      "data_hora": "2025-12-19T12:16:17.333394",
+      "mes_ano": "11/2025",
+      "receita_bruta": 20603.489999999998,
+      "resultado_liquido": -5793.290000000001
+    },
+    {
+      "data_hora": "2026-01-14T10:06:24.266641",
+      "mes_ano": "12/2025",
+      "receita_bruta": 21714.82,
+      "resultado_liquido": -1881.83
     }
   ],
-  "total_fechamentos": 1
+  "total_fechamentos": 4
 }
